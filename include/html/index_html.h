@@ -101,18 +101,27 @@ const char index_html[] PROGMEM = R"rawliteral(
  </tr>
 </table>
 
+  <p id="time">Time : <span id="timeValue">%TIME%</span></p>
   <p id="sliderText"><span id="textSliderValue">%SLIDERVALUE%</span></p>
   <p id="slider"><input type="range" onchange="updateSliderPWM(this)" id="pwmSlider" min="0" max="255" value="%SLIDERVALUE%" step="1" class="slider"></p>
   <p><span id="textPorteState">Status : %PORTESTATE%</span></p>
   <p><label for="Motor1">%NAMEMOTOR1% : </label><input type="button" onclick="updateMotor(this)" id="Motor" value="%PORTESTATE%"></p>
   <p><label for="out1">Relay 1 : </label><input type="button" onclick="relay(this)" id="out1" value="%STATEOUT1%"></p>
+    <p><label for="termo1">Point tempéré : </label><input type="range" id="termo1" value="%TERMO1%" min="0" max="35"></p>
+
   <p><label for="out2">Relay 2 : </label><input type="button" onclick="relay(this)" id="out2" value="%STATEOUT2%"></p>
   <p><label for="out3">Relay 3 : </label><input type="button" onclick="relay(this)" id="out3" value="%STATEOUT3%"></p>
   <p>Input : </p>
-  <p>Value 1 : %ANALOG3% </p>
-  <p>Value 2 : %ANALOG4% </p>
+  <p>Value 1 : <spand id="temp0"> %ANALOG1% </span></p>
+  <p>Value 2 : %ANALOG2% </p>
+  <p>Temperature : <spand id="temp1"> %TEMP1% </span></p>
+  <p>Humidite : <spand id="humidity1"> %HUMIDITY% </span></p>
   
 <script>
+
+ // request data updates every 5000 milliseconds
+    setInterval(updateSensor, 5000);
+    
     function displayMenu()
     {        
         document.getElementById("menuItems").style.display= document.getElementById("menuItems").style.display == "inline-grid" ? "" : "inline-grid";
@@ -124,6 +133,36 @@ function updateSliderPWM(element) {
   var xhr = new XMLHttpRequest();
   xhr.open("GET", "/slider?value="+sliderValue, true);
   xhr.send();
+}
+
+function updateSensor() {
+   var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/getdht11", true);
+  xhr.onload = function() {
+        if (xhr.status === 200) {
+
+          if (xhr.responseText) { // if the returned data is not null, update the values
+
+            var data = JSON.parse(xhr.responseText);
+            document.getElementById("temp0").innerHTML = data.temperature_0;
+            document.getElementById("temp1").innerHTML = data.temperature_1;
+            document.getElementById("humidity1").innerText = data.humidity_1;
+
+          } else { // a problem occurred
+
+            document.getElementById("temp1").innerText = "?";
+            document.getElementById("humidity1").innerText = "?";
+          }
+        } else {
+          console.log('Request failed.  Returned status of ' + xhr.status);
+
+          document.getElementById("temp1").innerText = "?";
+          document.getElementById("humidity1").innerText = "?";
+          
+        }
+      };
+      
+      xhr.send();
 }
 
 function updateMotor(element) {

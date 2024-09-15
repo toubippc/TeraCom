@@ -1,11 +1,12 @@
-#include <HTTPClient.h>
-#include <WebServer.h>
 #include "server.h"
+#include "wifiSettings.h"
+
 #include "html/style.h"
 #include "html/index_html.h"
 #include "html/network_html.h"
 #include "html/tweak_html.h"
 // #include "dc_motors/move.h"
+#include "html/update_html.h"
 
 // DEVAULT VALUE
 String stateout1 = "OFF";
@@ -22,6 +23,7 @@ int statusCode;
 // Replaces placeholder with button section in your web page
 String processor(const String& var){
   //Serial.println(var);
+  
   if (var == "SLIDERVALUE"){
     return sliderValue;
   } else {
@@ -82,12 +84,23 @@ String processor(const String& var){
   }
   */
   if(var == "ANALOG3") {
-    analog1 = String(analog3Value);
+    analog1 = String(analog1Value);
     return analog1;
   }
   if(var == "ANALOG4") {
     analog1 = String(analog4Value);
     return analog1;
+  }
+  if(var == "TEMP1") {
+    
+    return String(analog3Value);
+  }
+  if(var == "HUMIDITY") {
+    return String(analog4Value);
+  }
+  if(var == "TIME") {
+    String time = String(timeinfo.tm_hour)+":"+String(timeinfo.tm_min);
+    return String(time);
   }
   Serial.println(var);
   return String();
@@ -97,9 +110,23 @@ String processor(const String& var){
 void createWebServer()
 {
   {
+    AsyncElegantOTA.begin(&server);    // Start ElegantOTA
+    server.begin();
+    Serial.println("HTTP server started");
+  
    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/html", index_html, processor);
-  });
+    });
+    
+    server.on("/getdht11", HTTP_GET, [](AsyncWebServerRequest *request){
+      /* dht.temperature().getEvent(&event);
+      String temperature = String(event.temperature);
+      dht.humidity().getEvent(&event);
+      String humitidty = String(event.relative_humidity); */
+      content = "{\"temperature_0\" : "+String(analog1Value)+",\"temperature_1\" : "+String(analog3Value)+", \"humidity_1\" : "+String(analog4Value)+"}";
+      statusCode = 200;
+      request->send(statusCode, "application/json", content);
+    });
 
   // Send a GET request to <ESP_IP>/slider?value=<inputMessage>
   server.on("/slider", HTTP_GET, [] (AsyncWebServerRequest *request) {
@@ -262,5 +289,7 @@ void createWebServer()
       content += tweak_html();
       request->send(200, "text/html", content);
     });
+  
   }
+
 }

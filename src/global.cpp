@@ -8,19 +8,24 @@ const char* passphrase = "Default passord";
 
 String st;
 
+struct tm timeinfo;
+sensors_event_t event;
+DHT_Unified dht(DHTPIN, DHTTYPE);
+
 // PINNING
 const int output = 2;
 const int pinTriggerAP = 15;
 const int porteio = 16; // Relay0
-const int pinRelay1 = 17;
-const int pinRelay2 = 18;
-const int pinRelay3 = 5;
+const int pinRelay1 = 18;
+const int pinRelay2 = 5;
+const int pinRelay3 = 17;
 const int pinLedWifiAP= 21;
 const int pinLedWifiSTA = 19;
 const int analogIn1 = 4; // IN1
 const int analogIn2 = 0; // IN2
 const int analogIn3 = 32;
 const int analogIn4 = 33;
+
 
 // setting PWM properties
 const int freq = 5000;
@@ -41,11 +46,23 @@ String porteState = "Fermer";
 String sliderValue = "255";
 int timeMotor1 = 1000;
 
+int timer[3][2] = {
+    {0,0},
+    {8,20},
+    {10,16},
+};
+
+int termo1[3][2] = {
+    {24,24},
+    {25,27},
+    {26,28}
+};
+
 // IN
-int analog1Value = 0;
-int analog2Value = 0;
-int analog3Value = 0;
-int analog4Value = 0;
+float analog1Value = 0;
+float analog2Value = 0;
+float analog3Value = 0;
+float analog4Value = 0;
 
 const char* PARAM_INPUT = "value";
 const int ledChannel = 0;

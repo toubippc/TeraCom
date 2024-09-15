@@ -1,4 +1,5 @@
 #include "wifiSettings.h"
+#include "global.h"
 
 void scanWifi(void) {
 
@@ -46,6 +47,10 @@ bool setupSTA(void) {
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(100);
+  Serial.print("SSID : ");
+  Serial.println(esid.c_str());
+  Serial.print("PASS : ");
+  Serial.println(epass.c_str());
 
   WiFi.begin(esid.c_str(), epass.c_str());
   // Wait connection ..

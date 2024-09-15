@@ -9,6 +9,16 @@ Ce firware charger sur un esp32 permet le controle de températures, de l'éclai
 Via un pin/switch on peu le passer en mode station ( hotspot ),de facon a se connecter directement a l'appareil ( il emet son propre signal wifi/ssid ) ou en mode client, en le connectant a son réseaux existant.
 Vou devez pour se faire l'initialisé en vous connectant une première fois en mode station.
 
+### 4 sorties relay
+- Chauffage / Tapis de sol
+- Lumière chauffante ( spot )
+- Lumière spéciale ( UV )
+- Ventilation / Humidificateur
+
+### Sondes d'entrées
+- DHT
+- 
+
 D'autre fonction avec de multiple sondes sont a venir ! 
 (la liste est trop longue .. )
 

@@ -66,51 +66,16 @@ const char index_html[] PROGMEM = R"rawliteral(
       </div>
   </div>
 
-
-<table id="camControl">
- <tr>
-  <td>
-  </td>
-   
-  <td>
-   <input type="button" onclick="rotmove(this)" id="up" value="&uarr;">
-  </td>
-  <td>
-  </td>
- </tr>
-
- <tr>
-  <td>
-   <input type="button" onclick="rotmove(this)" id="right" value="&cularr;">
-  </td>
-  <td>
-  </td>
-  <td>
-   <input type="button" onclick="rotmove(this)" id="left" value="&curarr;">
-  </td>
- </tr>
-
- <tr>
-  <td>
-  </td>
-  <td>
-   <input type="button" onclick="rotmove(this)" id="down" value="&darr;">
-  </td>
-  <td>
-  </td>
- </tr>
-</table>
-
   <p id="time">Time : <span id="timeValue">%TIME%</span></p>
   <p id="sliderText"><span id="textSliderValue">%SLIDERVALUE%</span></p>
   <p id="slider"><input type="range" onchange="updateSliderPWM(this)" id="pwmSlider" min="0" max="255" value="%SLIDERVALUE%" step="1" class="slider"></p>
-  <p><span id="textPorteState">Status : %PORTESTATE%</span></p>
+  <p><span id="textPorteState" display="none">Status : %PORTESTATE%</span></p>
   <p><label for="Motor1">%NAMEMOTOR1% : </label><input type="button" onclick="updateMotor(this)" id="Motor" value="%PORTESTATE%"></p>
   <p><label for="out1">Relay 1 : </label><input type="button" onclick="relay(this)" id="out1" value="%STATEOUT1%"></p>
-    <p><label for="termo1">Point tempéré : </label><input type="range" id="termo1" value="%TERMO1%" min="0" max="35"></p>
-
   <p><label for="out2">Relay 2 : </label><input type="button" onclick="relay(this)" id="out2" value="%STATEOUT2%"></p>
   <p><label for="out3">Relay 3 : </label><input type="button" onclick="relay(this)" id="out3" value="%STATEOUT3%"></p>
+  <p><label for="termo1">Point tempéré : </label><input type="range" id="termo1" value="%TERMO1%" min="0" max="35"><span> %TERMO1% degres</span></p>
+
   <p>Input : </p>
   <p>Value 1 : <spand id="temp0"> %ANALOG1% </span></p>
   <p>Value 2 : %ANALOG2% </p>

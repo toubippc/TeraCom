@@ -1,0 +1,28 @@
+{
+    "shedule_1" : {
+        "time" : {
+            "begin" : 800,
+            "end" : 2000  
+        },
+        "input" : {
+            "min" : 28,
+            "max" : 35
+        },    
+        "action" :{
+          "output" : "value"  
+        }   
+    },
+    "shedule_2" : {
+        "time" : {
+            "begin" : 1100,
+            "end" : 1600  
+        },
+        "input" : {
+            "min" : 0,
+            "max" : 0
+        },
+        "action" :{
+            "output" : "value"  
+        }      
+    }
+}

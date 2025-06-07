@@ -15,10 +15,10 @@ DHT_Unified dht(DHTPIN, DHTTYPE);
 // PINNING
 const int output = 2;
 const int pinTriggerAP = 15;
-const int pinRelay0 = 16; // Relay0
-const int pinRelay1 = 18;
-const int pinRelay2 = 5;
-const int pinRelay3 = 17;
+const int pinRelay0 = 16; // Ventilation / Climatisation
+const int pinRelay1 = 18; // Spot
+const int pinRelay2 = 5; // UV
+const int pinRelay3 = 17; // Chauffage
 const int pinLedWifiAP= 21;
 const int pinLedWifiSTA = 19;
 const int analogIn1 = 0; // IN1 sonde 1
@@ -77,3 +77,4 @@ const char* HTTP_GET_PARAM_ROT_DOWN = "down";
 const char* HTTP_GET_PARAM_ROT_RIGHT = "right";
 const char* HTTP_GET_PARAM_ROT_LEFT = "left";
 
+int ECU_STATE = 0;

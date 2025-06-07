@@ -1,14 +1,16 @@
 #include "server.h"
 #include "wifiSettings.h"
+//#include <ElegantOTA.h>
 
 #include "html/style.h"
-#include "html/index_html.h"
 #include "html/network_html.h"
 #include "html/tweak_html.h"
 // #include "dc_motors/move.h"
 #include "html/update_html.h"
+#include "html/index_html.h"
 
 // DEVAULT VALUE
+String stateout0 = "OFF";
 String stateout1 = "OFF";
 String stateout2 = "OFF";
 String stateout3 = "OFF";
@@ -18,6 +20,34 @@ String analog3 = "0";
 String analog4 = "0";
 String content;
 int statusCode;
+
+/*
+unsigned long ota_progress_millis = 0;
+
+void onOTAStart() {
+  // Log when OTA has started
+  Serial.println("OTA update started!");
+  // <Add your own code here>
+}
+
+void onOTAProgress(size_t current, size_t final) {
+  // Log every 1 second
+  if (millis() - ota_progress_millis > 1000) {
+    ota_progress_millis = millis();
+    Serial.printf("OTA Progress Current: %u bytes, Final: %u bytes\n", current, final);
+  }
+}
+
+void onOTAEnd(bool success) {
+  // Log when OTA has finished
+  if (success) {
+    Serial.println("OTA update finished successfully!");
+  } else {
+    Serial.println("There was an error during OTA update!");
+  }
+  // <Add your own code here>
+}
+*/
 
 
 // Replaces placeholder with button section in your web page
@@ -44,43 +74,31 @@ String processor(const String& var){
     return Relay0_status;
   }
 
-  if(var == "STATEOUT1") {
-    if(stateout1 == "OFF") {
-      stateout1 = "ON";
-    }
-    else {
-      stateout1 = "OFF";
-    }
-    return stateout1;
+  if(var == "RELAY0") {return NameRelay0; }
+  if(var == "RELAY1") {return NameRelay1; }
+  if(var == "RELAY2") {return NameRelay2; }
+  if(var == "RELAY3") {return NameRelay3; }
+   
+  if(var == "STATEOUT0") {
+    return stateout0  = digitalRead(pinRelay0);
+  }
+    if(var == "STATEOUT1") {
+    return stateout1  = digitalRead(pinRelay1);
+  }
+    if(var == "STATEOUT2") {
+    return stateout2  = digitalRead(pinRelay2);
+  }
+    if(var == "STATEOUT3") {
+    return stateout3  = digitalRead(pinRelay3);
   }
 
-   if(var == "STATEOUT2") {
-    if(stateout2 == "OFF") {
-      stateout2 = "ON";
-    }
-    else {
-      stateout2 = "OFF";
-    }
-    return stateout2;
-  }
-
-   if(var == "STATEOUT3") {
-    if(stateout3 == "OFF") {
-      stateout3 = "ON";
-    }
-    else {
-      stateout3 = "OFF";
-    }
-    return stateout3;
-  }
-  
   if(var == "ANALOG1") {
     analog1 = String(analog1Value);
     return analog1;
   }
   if(var == "ANALOG2") {
-    analog1 = String(analog2Value);
-    return analog1;
+    analog2 = String(analog2Value);
+    return analog2;
   }
   
   if(var == "ANALOG3") {
@@ -91,7 +109,7 @@ String processor(const String& var){
     analog1 = String(analog4Value);
     return analog1;
   }
-  if(var == "TEMP1") {
+  if(var == "DHT1") {
     
     return String(analog3Value);
   }
@@ -102,6 +120,12 @@ String processor(const String& var){
     String time = String(timeinfo.tm_hour)+":"+String(timeinfo.tm_min);
     return String(time);
   }
+  if(var == "ECU") {
+    String ecuState = (ECU_STATE == 0) ? "OFF" : "ON";
+    return ecuState;
+  }
+  
+  
   Serial.println(var);
   return String();
 }
@@ -110,7 +134,13 @@ String processor(const String& var){
 void createWebServer()
 {
   {
-    //AsyncElegantOTA.begin(&server);    // Start ElegantOTA
+    /*
+    ElegantOTA.begin(&server);    // Start ElegantOTA
+    // ElegantOTA callbacks
+    ElegantOTA.onStart(onOTAStart);
+    ElegantOTA.onProgress(onOTAProgress);
+    ElegantOTA.onEnd(onOTAEnd);
+    */
     server.begin();
     Serial.println("HTTP server started");
   
@@ -118,12 +148,20 @@ void createWebServer()
     request->send_P(200, "text/html", index_html, processor);
     });
     
+    // return time
+    server.on("/gettime", HTTP_GET, [](AsyncWebServerRequest *request){
+      String timeString = String(timeinfo.tm_mon) + " " + String(timeinfo.tm_mday) + " " + String(timeinfo.tm_year) + " " + String(timeinfo.tm_hour) + ":" + String(timeinfo.tm_min) + ":" + String(timeinfo.tm_sec);
+      content = "{\"time\" : \""+timeString+"\"}";
+      statusCode = 200;
+      request->send(statusCode, "application/json", content);
+    });
+    
     server.on("/getdht11", HTTP_GET, [](AsyncWebServerRequest *request){
       /* dht.temperature().getEvent(&event);
       String temperature = String(event.temperature);
       dht.humidity().getEvent(&event);
       String humitidty = String(event.relative_humidity); */
-      content = "{\"temperature_0\" : "+String(analog1Value)+",\"temperature_1\" : "+String(analog3Value)+", \"humidity_1\" : "+String(analog4Value)+"}";
+      content = "{\"temperature_0\" : "+String(analog1Value)+",\"temperature_1\" : "+String(analog2Value)+",\"dht_1\" : "+String(analog3Value)+", \"humidity_1\" : "+String(analog4Value)+"}";
       statusCode = 200;
       request->send(statusCode, "application/json", content);
     });
@@ -279,7 +317,7 @@ void createWebServer()
         return request->requestAuthentication();
       if(request->args() != 0) {
         timeMotor1 = request->arg("timeMotor1").toInt();
-        NameRelay0 = request->arg("nameMotor1");
+        NameRelay0 = request->arg("relay0");
         NameRelay1 = request->arg("relay1");
         NameRelay2 = request->arg("relay2");
         NameRelay3 = request->arg("relay3");
@@ -288,6 +326,12 @@ void createWebServer()
       content = style_css();
       content += tweak_html();
       request->send(200, "text/html", content);
+    });
+    
+    // ECU Update HTML button
+    server.on("/ecu", [] (AsyncWebServerRequest *request) {
+      ECU_STATE = !ECU_STATE;
+      request->send(200, "text/plain", "OK");
     });
   
   }

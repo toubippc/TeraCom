@@ -198,6 +198,7 @@
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiUdp.h \
  .pio/libdeps/esp32doit-devkit-v1/AsyncTCP-esphome/src/AsyncTCP.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/pbuf.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/EEPROM/src/EEPROM.h \
  .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/ESPAsyncWebServer.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/FS/src/FS.h \
  .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/StringArray.h \
@@ -206,7 +207,6 @@
  .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/AsyncWebSocket.h \
  .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/AsyncWebSynchronization.h \
  .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/AsyncEventSource.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/EEPROM/src/EEPROM.h \
  .pio/libdeps/esp32doit-devkit-v1/Adafruit\ Unified\ Sensor/Adafruit_Sensor.h \
  .pio/libdeps/esp32doit-devkit-v1/DHT\ sensor\ library/DHT.h \
  .pio/libdeps/esp32doit-devkit-v1/DHT\ sensor\ library/DHT_U.h

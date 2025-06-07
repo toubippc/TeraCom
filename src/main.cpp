@@ -5,6 +5,7 @@
 #include "automation.h"
 
 
+
 //UPDATE variabls to blink without delay:
 const int led = 2;
 unsigned long previousMillis = 0;        // will store last time LED was updated
@@ -53,10 +54,10 @@ void setup()
   //pinMode(analogIn3, INPUT);
   //pinMode(analogIn4, INPUT);
 
-  digitalWrite(pinRelay0, LOW);
-  digitalWrite(pinRelay1, LOW);
-  digitalWrite(pinRelay2, LOW);
-  digitalWrite(pinRelay3, LOW);
+  digitalWrite(pinRelay0, OFF);
+  digitalWrite(pinRelay1, OFF);
+  digitalWrite(pinRelay2, OFF);
+  digitalWrite(pinRelay3, OFF);
   digitalWrite(pinLedWifiAP, LOW);
   digitalWrite(pinLedWifiSTA, LOW);
   //digitalWrite(analogIn1, LOW);
@@ -138,6 +139,7 @@ void setup()
   // Set delay between sensor readings based on sensor details.
   delayMS = sensor.min_delay / 1000;
          
+
 }
 
 
@@ -228,6 +230,8 @@ void loop() {
         }
         wpse324();
         automation();
+          
+
       delay(2000);
     
   }

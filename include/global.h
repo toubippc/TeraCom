@@ -7,11 +7,10 @@
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #endif
-#include "ESPAsyncWebServer.h"
 #include <EEPROM.h>
 #include <time.h>
 
-// #include <ElegantOTA.h>
+#include "ESPAsyncWebServer.h"
 
 
 // REQUIRES the following Arduino libraries:
@@ -25,6 +24,9 @@
 
 // See guide for details on sensor wiring and usage:
 //   https://learn.adafruit.com/dht/overview
+
+
+
 
 extern sensors_event_t event;
 
@@ -44,12 +46,12 @@ void setTimezone(String timezone);
 extern const int output;
 extern const int pinTriggerAP;
 // const int porteio = 16;
+extern const int pinRelay0;
 extern const int pinRelay1;
 extern const int pinRelay2;
 extern const int pinRelay3;
 extern const int pinLedWifiAP;
 extern const int pinLedWifiSTA;
-extern const int pinRelay0;
 extern const int analogIn1; // IN1
 extern const int analogIn2; // IN2
 extern const int analogIn3; // DHT TEMP/HUMIDTY
@@ -117,6 +119,8 @@ extern int timeMotor1;
 extern String esid;
 extern String epass;
 
+extern String OutputStatus[];
+
 // IN
 extern float analog1Value;
 extern float analog2Value;
@@ -136,3 +140,10 @@ extern const char* HTTP_GET_PARAM_ROT_UP;
 extern const char* HTTP_GET_PARAM_ROT_DOWN;
 extern const char* HTTP_GET_PARAM_ROT_RIGHT;
 extern const char* HTTP_GET_PARAM_ROT_LEFT;
+
+
+// EMERGENCY
+
+extern int ECU_STATE; // 0 = OFF, 1 = ON
+
+

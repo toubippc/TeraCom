@@ -47,6 +47,8 @@ bool setupSTA(void) {
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
   delay(100);
+  scanWifi();
+  Serial.println("Connecting to WiFi");
   Serial.print("SSID : ");
   Serial.println(esid.c_str());
   Serial.print("PASS : ");

@@ -38,7 +38,7 @@ String tweak_html(void) {
     content += "<h1> Tweak</h1>";
     content += "</div>";
     content += "<form method='get' action='tweak'>";
-    content += "<p><label for='relay0'>Name : </label><input type='text' id='relay1' name='relay1' value='" +NameRelay0+ "' class='inputText'></p>";
+    content += "<p><label for='relay0'>Name : </label><input type='text' id='relay0' name='relay0' value='" +NameRelay0+ "' class='inputText'></p>";
     content += "<p><label for='relay1'>Name : </label><input type='text' id='relay1' name='relay1' value='" +NameRelay1+ "' class='inputText'></p>";
     content += "<p><label for='relay2'>Name : </label><input type='text' id='relay2' name='relay2' value='" +NameRelay2+ "' class='inputText'></p>";
     content += "<p><label for='relay3'>Name : </label><input type='text' id='relay3' name='relay3' value='" +NameRelay3+ "' class='inputText'></p>";

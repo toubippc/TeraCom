@@ -60,20 +60,6 @@ String processor(const String& var){
     sliderValue = 128;
   }
 
-  if(var == "NAMEMOTOR1") {
-    return NameRelay0;
-  }
-
-  if(var == "PORTESTATE") {
-    if(Relay0_status == "Ouvert") {
-      Relay0_status = "Fermer";
-    }
-    else {
-      Relay0_status = "Ouvert";
-    }
-    return Relay0_status;
-  }
-
   if(var == "RELAY0") {return NameRelay0; }
   if(var == "RELAY1") {return NameRelay1; }
   if(var == "RELAY2") {return NameRelay2; }
@@ -102,11 +88,11 @@ String processor(const String& var){
   }
   
   if(var == "ANALOG3") {
-    analog1 = String(analog1Value);
+    analog3 = String(analog3Value);
     return analog1;
   }
   if(var == "ANALOG4") {
-    analog1 = String(analog4Value);
+    analog4 = String(analog4Value);
     return analog1;
   }
   if(var == "DHT1") {
@@ -151,7 +137,9 @@ void createWebServer()
     // return time
     server.on("/gettime", HTTP_GET, [](AsyncWebServerRequest *request){
       String timeString = String(timeinfo.tm_mon) + " " + String(timeinfo.tm_mday) + " " + String(timeinfo.tm_year) + " " + String(timeinfo.tm_hour) + ":" + String(timeinfo.tm_min) + ":" + String(timeinfo.tm_sec);
-      content = "{\"time\" : \""+timeString+"\"}";
+      char buff[70];
+      strftime(buff, sizeof buff, " %B %d %Y %T ", &timeinfo);
+      content = "{\"time\" : \""+ String(buff) +"\"}";
       statusCode = 200;
       request->send(statusCode, "application/json", content);
     });
@@ -200,24 +188,7 @@ void createWebServer()
         }
     }
 
-    // GET WS_ROT PARAM
-    // GET input1 value on <ESP_IP>?up=<inputMessage>
-    // MOTOR move
-    /*
-    else if(request->hasParam(HTTP_GET_PARAM_ROT_UP)) {
-      up(timeMotor1);
-    }
-    // GET input1 value on <ESP_IP>?down=<inputMessage>
-    else if(request->hasParam(HTTP_GET_PARAM_ROT_DOWN)) {
-      down(timeMotor1);
-    }
-    else if(request->hasParam(HTTP_GET_PARAM_ROT_RIGHT)) {
-      right(timeMotor1);
-    }
-    else if(request->hasParam(HTTP_GET_PARAM_ROT_LEFT)) {
-      left(timeMotor1);
-    }
-    */
+
 
     // GET input1 value on <ESP_IP>/slider?outX=<inputMessage>
     else if(request->hasParam(HTTP_GET_OUT1)) {

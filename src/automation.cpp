@@ -51,9 +51,9 @@ void automation(void) {
     // Horraire JOUR
     if( 8 <= timeinfo.tm_hour && timeinfo.tm_hour  < 20) {
         
-        // Controle Zone froide
+        // Controle Zone froide entre 24 et 28
         // Sécurité zone froide
-        if(analog2Value >= 25) { 
+        if(analog2Value >= 27) { 
             digitalWrite(pinRelay3, OFF); // Chauffage OFF
             digitalWrite(pinRelay2, OFF); // UV OFF
             digitalWrite(pinRelay1, OFF); // Spot OFF
@@ -62,18 +62,17 @@ void automation(void) {
         else {
             
             // Si la zone chaude est trop froide, on chauffe. Sinon on éteint le chauffage.
-            int chauffage = analog1Value <= 33  ? 1 : 0;
-            digitalWrite(pinRelay3, chauffage); // Chauffage
+            if(analog1Value <= 33 ) { digitalWrite(pinRelay3, ON); } // Chauffage ON
+            if(analog1Value >= 35 ) { digitalWrite(pinRelay3, OFF); } // Chauffage OFF
             
-            // Controle Zone tempérée
-                if (analog3Value >= 29 ) { 
-                    digitalWrite(pinRelay2, OFF); // UV OFF
-                } else {
-                    digitalWrite(pinRelay2, ON); // UV ON
-                }
-                
+            // Controle Zone tempérée ( Ambiante )
+                if (analog3Value >= 30 ) { digitalWrite(pinRelay2, OFF); } // UV OFF
+                if (analog3Value <= 28 ) { digitalWrite(pinRelay2, ON); } // UV ON
+                //if (analog3Value >= 35 ) { digitalWrite(pinRelay0, ON); }
+                 analog3Value = (analog3Value >= 33 ) ? ON : OFF; // Ventilation ON
+            
                 // Controle des spots
-                if (10 <= timeinfo.tm_hour && timeinfo.tm_hour <= 16) {
+                if (10 >= timeinfo.tm_hour && timeinfo.tm_hour <= 16) {
                     if (analog3Value <= 27 ) { digitalWrite(pinRelay1, ON); } // Spot ON
                     if (analog3Value >= 29 ) { digitalWrite(pinRelay1, OFF); } // Spot OFF
                 }
@@ -89,8 +88,8 @@ void automation(void) {
         digitalWrite(pinRelay1, OFF); // Spot OFF
         digitalWrite(pinRelay2, OFF); // UV OFF
         // Chauffage Nuit
-        if (analog1Value <= 22 ) { digitalWrite(pinRelay3, ON); } // Chauffage ON
-        if (analog1Value >= 24 ) { digitalWrite(pinRelay3, OFF); } // Chauffage OFF
+        if (analog1Value <= 23 ) { digitalWrite(pinRelay3, ON); } // Chauffage ON
+        if (analog1Value >= 25 ) { digitalWrite(pinRelay3, OFF); } // Chauffage OFF
     } 
        
     // Serial.printf("Hour : %d \n", timeinfo.tm_hour);

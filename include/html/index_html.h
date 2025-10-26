@@ -52,6 +52,13 @@ const char index_html[] PROGMEM = R"rawliteral(
       width : 75px;
     }
       
+    div#line1 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin: 10px;
+      width: 100%%;
+    }
+      
     
     .gauge-container {
       width: 300px;
@@ -131,6 +138,11 @@ const char index_html[] PROGMEM = R"rawliteral(
       border-right: 5px solid transparent;
       border-top: 5px solid #333;
     }
+      
+    .hidden {
+      display: none;
+      position: absolute;
+    }
   </style>
 </head>
 
@@ -146,16 +158,26 @@ const char index_html[] PROGMEM = R"rawliteral(
       </div>
   </div>
 
-  <!-- Bouton arret urgence -->
-  <p><input type="button" onclick="ecu(this)" id="ecu" value=" %ECU% "></p>
-  <p id="time">Time : <span id="timeValue">%TIME%</span></p>
-
-  <p>Input : </p>
-  <p>Value 1 : <span id="temp0"> %ANALOG1% </span>&degC</p>
-  <p>Value 2 : <span id="temp1"> %ANALOG2% </span>&degC</p>
-  <p>Temperature : <span id="dht1"> %DHT1% </span>&degC</p>
-  <p>Humidite : <span id="humidity1"> %HUMIDITY% </span>&percnt</p>
+  <div id="line1">
+    <div id="ecu_content">
+      <!-- Bouton arret urgence -->
+      <p>ECU : <input type="button" onclick="ecu(this)" id="ecu" value=" %ECU% "></p>
+    </div>
+    <div id="time_content">
+      <!-- Affichage de l'heure -->
+      <p id="time">Time : <span id="timeValue">%TIME%</span></p>
+    </div>
+    
+    
+  <div class="hidden">
+    <p>Input : </p>
+    <p>Zone chaude : <span id="temp0"> %ANALOG1% </span>&degC</p>
+    <p>Zone Froide : <span id="temp1"> %ANALOG2% </span>&degC</p>
+    <p>Temperature : <span id="dht1"> %DHT1% </span>&degC</p>
+    <p>Humidite : <span id="humidity1"> %HUMIDITY% </span>&percnt</p>
+  </div>
   
+  <label for="gauge">Temperature Zone Chaude</label>
   <div id="gauge" class="gauge-container">
       <div class="current-value">0&degC</div>
       <div class="gauge">
@@ -171,17 +193,59 @@ const char index_html[] PROGMEM = R"rawliteral(
         <span>100&degC</span>
       </div>
   </div>
+  <label for="gauge1">Temperature Zone Froide</label>
+  <div id="gauge1" class="gauge-container">
+      <div class="current-value">0&degC</div>
+      <div class="gauge">
+        <div class="gauge-marks"></div>
+        <div class="gauge-fill"></div>
+      </div>
+      <div class="gauge-labels">
+        <span>0&deg</span>
+        <span>20&degC</span>
+        <span>40&degC</span>
+        <span>60&degC</span>
+        <span>80&degC</span>
+        <span>100&degC</span>
+      </div>
+  </div>
+  <label for="gauge2">Temperature Ambiante</label>
+  <div id="gauge2" class="gauge-container">
+      <div class="current-value">0&degC</div>
+      <div class="gauge">
+        <div class="gauge-marks"></div>
+        <div class="gauge-fill"></div>
+      </div>
+      <div class="gauge-labels">
+        <span>0&degC</span>
+        <span>20&degC</span>
+        <span>40&degC</span>
+        <span>60&degC</span>
+        <span>80&degC</span>
+        <span>100&degC</span>
+      </div>
+  </div>
+  <label for="gauge3">Humidite</label>
+  <div id="gauge3" class="gauge-container">
+      <div class="current-value">?<span>&percnt;</span></div>
+      <div class="gauge">
+        <div class="gauge-marks"></div>
+        <div class="gauge-fill"></div>
+      </div>
+      <div class="gauge-labels">
+        <span>0&percnt;</span>
+        <span>20&percnt;</span>
+        <span>40&percnt;</span>
+        <span>60&percnt;</span>
+        <span>80&percnt;</span>
+        <span>100&percnt;</span>
+      </div>
+  </div>
   
-  
-    <p id="sliderText"><span id="textSliderValue">%SLIDERVALUE%</span></p>
-  <p id="slider"><input type="range" onchange="updateSliderPWM(this)" id="pwmSlider" min="0" max="255" value="%SLIDERVALUE%" step="1" class="slider"></p>
-  <p><span id="textPorteState" display="none">Status : %PORTESTATE%</span></p>
-  <p><label for="Motor1">%NAMEMOTOR1% : </label><input type="button" onclick="updateMotor(this)" id="Motor" value="%PORTESTATE%"></p>
   <p><label for="out0">%RELAY0% : </label><input type="button" onclick="relay(this)" id="out1" value="%STATEOUT0%"></p>
   <p><label for="out1">%RELAY1% : </label><input type="button" onclick="relay(this)" id="out1" value="%STATEOUT1%"></p>
   <p><label for="out2">%RELAY2% : </label><input type="button" onclick="relay(this)" id="out2" value="%STATEOUT2%"></p>
   <p><label for="out3">%RELAY3% : </label><input type="button" onclick="relay(this)" id="out3" value="%STATEOUT3%"></p>
-  <p><label for="termo1">Point tempéré : </label><input type="range" id="termo1" value="%TERMO1%" min="0" max="35"><span> %TERMO1% degres</span></p>
 
 <script>
 
@@ -223,7 +287,7 @@ class LinearGauge {
     const percentage = (this.value / this.maxValue) * 100;
     
     this.gaugeFill.style.width = `${percentage}%%`;
-    this.currentValue.textContent = `${this.value}C`;
+    this.currentValue.textContent = `${this.value}`;
     this.currentValue.style.left = `${percentage}%%`;
   }
 
@@ -243,8 +307,10 @@ class LinearGauge {
   }
 }
 
-const gauge = new LinearGauge("gauge");
-    
+const gauge = new LinearGauge("gauge"); // Zone chaude
+const gauge1 = new LinearGauge("gauge1"); // Zone froide
+const gauge2 = new LinearGauge("gauge2"); // Température ambiante
+const gauge3 = new LinearGauge("gauge3"); // Humidité  
     
 function ecu(element) {
   var ecuState = document.getElementById("ecu").value;
@@ -306,8 +372,11 @@ function updateSensor() {
             document.getElementById("temp0").innerHTML = data.temperature_0;
             gauge.setValue(data.temperature_0); // Définir une valeur pour la gauge
             document.getElementById("temp1").innerHTML = data.temperature_1;
+            gauge1.setValue(data.temperature_1); // Définir une valeur pour la gauge1
             document.getElementById("dht1").innerHTML = data.dht_1;
+            gauge2.setValue(data.dht_1); // Définir une valeur pour la gauge2
             document.getElementById("humidity1").innerText = data.humidity_1;
+            gauge3.setValue(data.humidity_1); // Définir une valeur pour la gauge3
 
           } else { // a problem occurred
 

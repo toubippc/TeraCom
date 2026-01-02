@@ -338,16 +338,25 @@ void createWebServer()
         return request->requestAuthentication();
       // HERE SAVE SETTINGS TO EEPROM
       if(request->args() != 0) {
-        String summerbeginDD = request->arg("summerbeginDD");
-        String summerbeginMM = request->arg("summerbeginMM");
-        String winterbeginDD = request->arg("winterbeginDD");
-        String winterbeginMM = request->arg("winterbeginMM");
+        
+        // PROGRAM DATES
+        program.summer.beginDD = request->arg("summerbeginDD").toInt();
+        program.summer.beginMM = request->arg("summerbeginMM").toInt();
+        program.winter.beginDD = request->arg("winterbeginDD").toInt();
+        program.winter.beginMM = request->arg("winterbeginMM").toInt();
 
-        String DayBeginHH = request->arg("DayBeginHH");
-        String DayBeginMM = request->arg("DayBeginMM");
-        String NightBeginHH = request->arg("NightBeginHH");
-        String NightBeginMM = request->arg("NightBeginMM");
+        // DAY/NIGHT BEGIN TIMES
+        program.summer.day.beginH = request->arg("summer_day_beginH").toInt();
+        program.summer.day.beginM = request->arg("summer_day_beginM").toInt();
+        program.summer.night.beginH = request->arg("summer_night_beginH").toInt();
+        program.summer.night.beginM = request->arg("summer_night_beginM").toInt();
 
+        program.winter.day.beginH = request->arg("winter_day_beginH").toInt();
+        program.winter.day.beginM = request->arg("winter_day_beginM").toInt();
+        program.winter.night.beginH = request->arg("winter_night_beginH").toInt();
+        program.winter.night.beginM = request->arg("winter_night_beginM").toInt();
+
+        // SUMMER DAY SETTINGS
         program.summer.day.temp1.min = request->arg("summer_day_temp1min").toInt();
         program.summer.day.temp1.max = request->arg("summer_day_temp1max").toInt();
 
@@ -360,10 +369,41 @@ void createWebServer()
         program.summer.day.humidity1.min = request->arg("summer_day_humidity1min").toInt();
         program.summer.day.humidity1.max = request->arg("summer_day_humidity1max").toInt();
 
+        // SUMMER NIGHT SETTINGS
+        program.summer.night.temp1.min = request->arg("summer_night_temp1min").toInt();
+        program.summer.night.temp1.max = request->arg("summer_night_temp1max").toInt();
+        program.summer.night.temp2.min = request->arg("summer_night_temp2min").toInt();
+        program.summer.night.temp2.max = request->arg("summer_night_temp2max").toInt();
+        program.summer.night.temp3.min = request->arg("summer_night_temp3min").toInt();
+        program.summer.night.temp3.max = request->arg("summer_night_temp3max").toInt();
+        program.summer.night.humidity1.min = request->arg("summer_night_humidity1min").toInt();
+        program.summer.night.humidity1.max = request->arg("summer_night_humidity1max").toInt();
+        // WINTER DAY SETTINGS
+        program.winter.day.temp1.min = request->arg("winter_day_temp1min").toInt();
+        program.winter.day.temp1.max = request->arg("winter_day_temp1max").toInt();
+        program.winter.day.temp2.min = request->arg("winter_day_temp2min").toInt();
+        program.winter.day.temp2.max = request->arg("winter_day_temp2max").toInt();
+        program.winter.day.temp3.min = request->arg("winter_day_temp3min").toInt();
+        program.winter.day.temp3.max = request->arg("winter_day_temp3max").toInt();
+        program.winter.day.humidity1.min = request->arg("winter_day_humidity1min").toInt();
+        program.winter.day.humidity1.max = request->arg("winter_day_humidity1max").toInt();
+        // WINTER NIGHT SETTINGS    
+        program.winter.night.temp1.min = request->arg("winter_night_temp1min").toInt();
+        program.winter.night.temp1.max = request->arg("winter_night_temp1max").toInt();
+        program.winter.night.temp2.min = request->arg("winter_night_temp2min").toInt();
+        program.winter.night.temp2.max = request->arg("winter_night_temp2max").toInt();
+        program.winter.night.temp3.min = request->arg("winter_night_temp3min").toInt();
+        program.winter.night.temp3.max = request->arg("winter_night_temp3max").toInt();
+        program.winter.night.humidity1.min = request->arg("winter_night_humidity1min").toInt();
+        program.winter.night.humidity1.max = request->arg("winter_night_humidity1max").toInt();
+        
+        EEPROM.put(1024, program);
+        EEPROM.commit();
+        
         Serial.println("Settings to save:");
-        Serial.println("Summer begin: " + summerbeginDD + "/" + summerbeginMM);
-        Serial.println("Winter begin: " + winterbeginDD + "/" + winterbeginMM);
-        Serial.println("Day begin: " + DayBeginHH + "h" + DayBeginMM);
+        Serial.println("Summer begin: " + String(program.summer.beginDD) + "/" + String(program.summer.beginMM));
+        Serial.println("Winter begin: " + String(program.winter.beginDD) + "/" + String(program.winter.beginMM));
+        Serial.println("Day begin: " + String(program.summer.day.beginH) + "h" + String(program.summer.day.beginM));
       }
       request->send(200, "text/plain", "Settings saved!");
     });

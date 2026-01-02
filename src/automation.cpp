@@ -12,25 +12,13 @@ std::map<String, int> deviceRules;
 
 void automation(void) {
     
-    // Zone chaude
-    temp1.min = 33;
-    temp1.max = 35;
-    program.summer.day.temp1 = temp1;
+    EEPROM.get(1024, program);
+    
+    if(program.summer.day.temp1.min == 0 && program.summer.day.temp1.max == 0) {
+        // Si pas de programme enregistré, on initialise des valeurs par défaut
+        programDefaultValues();
+    }
 
-    // Zone froide
-    temp2.min = 24;
-    temp2.max = 26;
-    program.summer.day.temp2 = temp2;
-
-    // Zone tempérée
-    temp3.min = 28;
-    temp3.max = 30;
-    program.summer.day.temp3 = temp3;
-
-    // Humidité
-    humidity1.min = 25;
-    humidity1.max = 75;
-    program.summer.day.humidity1 = humidity1;
         
     // Sondes
     /*
@@ -99,4 +87,60 @@ void automation(void) {
        
     // Serial.printf("Hour : %d \n", timeinfo.tm_hour);
 
+}
+
+void programDefaultValues() {
+    // Valeurs par défaut si pas de programme enregistré
+    program.summer.beginDD = 01; // 1
+    program.summer.beginMM = 04; // Avril
+    program.summer.day.beginH = 8;
+    program.summer.day.beginM = 0;
+    program.summer.day.endH = 20;
+    program.summer.day.endM = 0;
+    
+    program.summer.day.temp1.min = 28;
+    program.summer.day.temp1.max = 34;
+    program.summer.day.temp2.min = 24;
+    program.summer.day.temp2.max = 28;
+    program.summer.day.temp3.min = 20;
+    program.summer.day.temp3.max = 26;
+    program.summer.day.humidity1.min = 40;
+    program.summer.day.humidity1.max = 60;
+    
+    program.summer.night.beginH = 20;
+    program.summer.night.beginM = 0;    
+    program.summer.night.temp1.min = 26;
+    program.summer.night.temp1.max = 32;
+    program.summer.night.temp2.min = 18;
+    program.summer.night.temp2.max = 22;
+    program.summer.night.temp3.min = 22;
+    program.summer.night.temp3.max = 26;
+    program.summer.night.humidity1.min = 40;
+    program.summer.night.humidity1.max = 60;
+
+    program.winter.beginDD = 21; // 1 Octobre
+    program.winter.beginMM = 8;   // 28 Février
+    program.winter.day.beginH = 8;
+    program.winter.day.beginM = 0;  // 20h00
+    program.winter.day.temp1.min = 24;
+    program.winter.day.temp1.max = 30;
+    program.winter.day.temp2.min = 20;
+    program.winter.day.temp2.max = 24;
+    program.winter.day.temp3.min = 18;
+    program.winter.day.temp3.max = 22;
+    program.winter.day.humidity1.min = 40;
+    program.winter.day.humidity1.max = 60;
+    
+    program.winter.night.beginH = 20;
+    program.winter.night.beginM = 0;
+    program.winter.night.temp1.min = 22;
+    program.winter.night.temp1.max = 28;
+    program.winter.night.temp2.min = 16;
+    program.winter.night.temp2.max = 20;
+    program.winter.night.temp3.min = 20;
+    program.winter.night.temp3.max = 24;
+    program.winter.night.humidity1.min = 40;
+    program.winter.night.humidity1.max = 60;
+    
+    
 }

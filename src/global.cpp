@@ -15,16 +15,16 @@ DHT_Unified dht(DHTPIN, DHTTYPE);
 // PINNING
 const int output = 2;
 const int pinTriggerAP = 15;
-const int pinRelay0 = 16; // Ventilation / Climatisation
-const int pinRelay1 = 18; // Spot
-const int pinRelay2 = 5; // UV
-const int pinRelay3 = 17; // Chauffage
+const int pinRelay0 = 16; // Ventilation / Climatisation : PIN 16
+const int pinRelay1 = 18; // Spot : PIN 18
+const int pinRelay2 = 5; // UV : PIN 5
+const int pinRelay3 = 17; // Chauffage : PIN 17
 const int pinLedWifiAP= 21;
 const int pinLedWifiSTA = 19;
-const int analogIn1 = 0; // IN1 sonde 1
-const int analogIn2 = 4; // IN2 sonde 2
-const int analogIn3 = 32; // DHT
-const int analogIn4 = 35; // FREE
+const int analogIn1 = 0; // IN1 sonde 1 : PIN 0
+const int analogIn2 = 4; // IN2 sonde 2 : PIN 4
+const int analogIn3 = 32; // DHT : PIN 32
+const int analogIn4 = 35; // FREE : PIN 35
 
 // setting PWM properties
 const int freq = 5000;
@@ -37,10 +37,17 @@ String hostname = "axsiot";
 String WIFI_AP_Name = "hackme";
 char *http_username = "admin";
 char *http_password = "*hackme*";
+
 String NameRelay0 = "Relay 0";
 String NameRelay1 = "Relay 1";
 String NameRelay2 = "Relay 2";
 String NameRelay3 = "Relay 3";
+
+String NameSensors1 = "Zone chaude";
+String NameSensors2 = "Zone froide";
+String NameSensors3 = "Ambiante";
+String NameSensors4 = "Humidité";
+
 String Relay0_status = "Fermer";
 String sliderValue = "255";
 int timeMotor1 = 1000;

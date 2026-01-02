@@ -215,6 +215,7 @@ void loop() {
         else {
           Serial.print(F("Temperature: "));
           Serial.print(event.temperature);
+          analog3Value = event.temperature;
           Serial.print(" \xC2\xB0"); // shows degree symbol
           Serial.println(F("C"));
         }
@@ -226,6 +227,7 @@ void loop() {
         else {
           Serial.print(F("Humidity: "));
           Serial.print(event.relative_humidity);
+          analog4Value = event.relative_humidity;
           Serial.println(F("%"));
         }
         wpse324();

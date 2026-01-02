@@ -8,10 +8,11 @@
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" >
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AXSiot Server</title>
+  <title>LeoMatic</title>
   <style>
-    body {background : rgb(250,250,255); max-width: 800px; margin: auto; padding-bottom: 25px;}
+    body {background : rgb(250,250,255); max-width: 800px; margin: auto; padding-left: 5px; padding-bottom: 25px;}
     input {font-size: 1.3rem; margin : 10px; padding: 10px;}
     input.buttonMenu {width : 75px; border : none; }
     div#bodyheader {
@@ -148,12 +149,13 @@ const char index_html[] PROGMEM = R"rawliteral(
 
 <body>
   <div id="bodyheader">
-      <h2>AXSiot Server</h2>
+      <h2>LéoMatic Module</h2>
       <div id="settingsMenu">
           <form action="menu" method="POST"><input class="buttonMenu" type="button" onclick="displayMenu()" value="&#9776;"></form>
           <div id="menuItems">
               <form action="network" method="POST"><input type="submit" value="&#8644; Network"></form>
               <form action="tweak" method="POST"><input type="submit" value="&#10049; Tweak"></form>
+              <form action="auto" method="POST"><input type="submit" value="&#10049; Settings"></form>
           </div>
       </div>
   </div>
@@ -177,7 +179,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     <p>Humidite : <span id="humidity1"> %HUMIDITY% </span>&percnt</p>
   </div>
   
-  <label for="gauge">Temperature Zone Chaude</label>
+  <label for="gauge">Temperature %SONDE1% </label>
   <div id="gauge" class="gauge-container">
       <div class="current-value">0&degC</div>
       <div class="gauge">
@@ -193,7 +195,7 @@ const char index_html[] PROGMEM = R"rawliteral(
         <span>100&degC</span>
       </div>
   </div>
-  <label for="gauge1">Temperature Zone Froide</label>
+  <label for="gauge1">Temperature Zone %SONDE2% </label>
   <div id="gauge1" class="gauge-container">
       <div class="current-value">0&degC</div>
       <div class="gauge">
@@ -209,7 +211,7 @@ const char index_html[] PROGMEM = R"rawliteral(
         <span>100&degC</span>
       </div>
   </div>
-  <label for="gauge2">Temperature Ambiante</label>
+  <label for="gauge2">Temperature %SONDE3% </label>
   <div id="gauge2" class="gauge-container">
       <div class="current-value">0&degC</div>
       <div class="gauge">
@@ -225,7 +227,7 @@ const char index_html[] PROGMEM = R"rawliteral(
         <span>100&degC</span>
       </div>
   </div>
-  <label for="gauge3">Humidite</label>
+  <label for="gauge3"> %SONDE4% </label>
   <div id="gauge3" class="gauge-container">
       <div class="current-value">?<span>&percnt;</span></div>
       <div class="gauge">

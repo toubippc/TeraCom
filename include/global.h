@@ -88,8 +88,9 @@ extern int relay4_timeOff;
 
 extern int timeOn[];
 extern int timeOff[];
-extern int temp1min[];
-extern int temp1max[];
+
+extern int temp1min;
+extern int temp1max;
 
 extern int temp2min;
 extern int temp2max;
@@ -109,10 +110,17 @@ extern String hostname;
 extern String WIFI_AP_Name;
 extern char *http_username;
 extern char *http_password;
+
 extern String NameRelay0;
 extern String NameRelay1;
 extern String NameRelay2;
 extern String NameRelay3;
+
+extern String NameSensors1;
+extern String NameSensors2;
+extern String NameSensors3;
+extern String NameSensors4;
+
 extern String Relay0_status;
 extern String sliderValue;
 extern int timeMotor1;

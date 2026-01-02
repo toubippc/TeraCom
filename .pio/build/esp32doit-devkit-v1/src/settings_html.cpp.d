@@ -1,6 +1,5 @@
-.pio/build/esp32doit-devkit-v1/libadd/AsyncTCP_RP2040W/AsyncPrinter.cpp.o: \
- .pio/libdeps/esp32doit-devkit-v1/AsyncTCP_RP2040W/src/AsyncPrinter.cpp \
- .pio/libdeps/esp32doit-devkit-v1/AsyncTCP_RP2040W/src/AsyncPrinter.h \
+.pio/build/esp32doit-devkit-v1/src/settings_html.cpp.o: \
+ src/settings_html.cpp include/html/settings_html.h include/global.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/Arduino.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp_arduino_version.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/freertos/FreeRTOS.h \
@@ -135,7 +134,10 @@
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_hw_support/include/soc/esp32/spiram.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/io_pin_remap.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/Arduino.h \
- .pio/libdeps/esp32doit-devkit-v1/AsyncTCP_RP2040W/src/AsyncTCP_RP2040W.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/DNSServer/src/DNSServer.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiUdp.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/cbuf.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFi.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/Print.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/IPv6Address.h \
@@ -194,29 +196,18 @@
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiServer.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/Server.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiUdp.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
- .pio/libdeps/esp32doit-devkit-v1/AsyncTCP_RP2040W/src/cbuf.h \
- .pio/libdeps/esp32doit-devkit-v1/AsyncTCP_RP2040W/src/AsyncTCP_RP2040W_Debug.h \
- .pio/libdeps/esp32doit-devkit-v1/AsyncTCP_RP2040W/src/async_config.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/tcp.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/tcpbase.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/mem.h \
+ .pio/libdeps/esp32doit-devkit-v1/AsyncTCP-esphome/src/AsyncTCP.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/pbuf.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/ip.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/netif.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/stats.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/memp.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/priv/memp_std.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/priv/memp_priv.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/priv/mem_priv.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/ip4.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/prot/ip4.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/ip6.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/prot/ip6.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/prot/ip.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/icmp.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/prot/icmp.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/icmp6.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/prot/icmp6.h \
- .pio/libdeps/esp32doit-devkit-v1/AsyncTCP_RP2040W/src/cbuf.h \
- .pio/libdeps/esp32doit-devkit-v1/AsyncTCP_RP2040W/src/debug.h
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/EEPROM/src/EEPROM.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/ESPAsyncWebServer.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/FS/src/FS.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/StringArray.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/WebResponseImpl.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/WebHandlerImpl.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/AsyncWebSocket.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/AsyncWebSynchronization.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/AsyncEventSource.h \
+ .pio/libdeps/esp32doit-devkit-v1/Adafruit\ Unified\ Sensor/Adafruit_Sensor.h \
+ .pio/libdeps/esp32doit-devkit-v1/DHT\ sensor\ library/DHT.h \
+ .pio/libdeps/esp32doit-devkit-v1/DHT\ sensor\ library/DHT_U.h \
+ include/automation.h include/global.h

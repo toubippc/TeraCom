@@ -43,9 +43,11 @@ String tweak_html(void) {
     content += "<p><label for='relay2'>Name : </label><input type='text' id='relay2' name='relay2' value='" +NameRelay2+ "' class='inputText'></p>";
     content += "<p><label for='relay3'>Name : </label><input type='text' id='relay3' name='relay3' value='" +NameRelay3+ "' class='inputText'></p>";
 
-    content += "<fieldset><legent>Temperature sonde 1</legend>";
-    content += "<p><label for='temp1min'>Name : </label><input type='text' id='relay3' name='relay3' value='" +NameRelay3+ "' class='inputText'></p>";
-    
+    content += "<fieldset><legend>Name sondes</legend>";
+    content += "<p><label for='NameSensors1'>Name : </label><input type='text' id='NameSensors1' name='NameSensors1' value='" +NameSensors1+ "' class='inputText'></p>";
+    content += "<p><label for='NameSensors2'>Name : </label><input type='text' id='NameSensors2' name='NameSensors2' value='" +NameSensors2+ "' class='inputText'></p>";
+    content += "<p><label for='NameSensors3'>Name : </label><input type='text' id='NameSensors3' name='NameSensors3' value='" +NameSensors3+ "' class='inputText'></p>";
+    content += "<p><label for='NameSensors4'>Name : </label><input type='text' id='NameSensors4' name='NameSensors4' value='" +NameSensors4+ "' class='inputText'></p>";
     content += "</fieldset>";
     content += "<input type='submit' onclick='saveTweak(this)' name='tweakSave' value='Save' />";
     content += "</form>";

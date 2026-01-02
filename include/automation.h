@@ -6,7 +6,9 @@
 
 using namespace std;
 
+struct Temp { int min; int max; };
 
+extern Temp temp1, temp2, temp3;
 struct { int relay; int sensors; int value; } devices;
 struct { int beginTime; int endTime; int function; } shedules;
 

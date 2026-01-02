@@ -212,4 +212,5 @@
  .pio/libdeps/esp32doit-devkit-v1/DHT\ sensor\ library/DHT_U.h \
  include/wifiSettings.h include/html/style.h include/global.h \
  include/html/network_html.h include/html/tweak_html.h \
- include/html/update_html.h include/html/index_html.h
+ include/html/update_html.h include/html/index_html.h \
+ include/html/settings_html.h

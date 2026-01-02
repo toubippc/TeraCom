@@ -8,6 +8,7 @@
 // #include "dc_motors/move.h"
 #include "html/update_html.h"
 #include "html/index_html.h"
+#include "html/settings_html.h"
 
 // DEVAULT VALUE
 String stateout0 = "OFF";
@@ -64,7 +65,12 @@ String processor(const String& var){
   if(var == "RELAY1") {return NameRelay1; }
   if(var == "RELAY2") {return NameRelay2; }
   if(var == "RELAY3") {return NameRelay3; }
-   
+
+  if(var == "SONDE1") {return NameSensors1; }
+  if(var == "SONDE2") {return NameSensors2; }
+  if(var == "SONDE3") {return NameSensors3; }
+  if(var == "SONDE4") {return NameSensors4; }
+
   if(var == "STATEOUT0") {
     return stateout0  = digitalRead(pinRelay0);
   }
@@ -129,7 +135,12 @@ void createWebServer()
     */
     server.begin();
     Serial.println("HTTP server started");
-  
+    
+    NameRelay0 = (EEPROM.readString(64) == "") ? "Relay 0" : EEPROM.readString(64);
+    NameRelay1 = (EEPROM.readString(128) == "") ? "Relay 1" : EEPROM.readString(128);
+    NameRelay2 = (EEPROM.readString(196) == "") ? "Relay 2" : EEPROM.readString(196);
+    NameRelay3 = (EEPROM.readString(256) == "") ? "Relay 3" : EEPROM.readString(256);
+    
    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/html", index_html, processor);
     });
@@ -292,6 +303,14 @@ void createWebServer()
         NameRelay1 = request->arg("relay1");
         NameRelay2 = request->arg("relay2");
         NameRelay3 = request->arg("relay3");
+        
+        // EEPROM WRITE HERE
+        EEPROM.writeString(64, NameRelay0);
+        EEPROM.writeString(128, NameRelay1);
+        EEPROM.writeString(196, NameRelay2);
+        EEPROM.writeString(256, NameRelay3);
+        EEPROM.commit();
+
         // sliderValue = request->arg("sliderMotor1");
       }
       content = style_css();
@@ -304,6 +323,15 @@ void createWebServer()
       ECU_STATE = !ECU_STATE;
       request->send(200, "text/plain", "OK");
     });
+    
+    // ECU Update HTML button
+    server.on("/auto", [] (AsyncWebServerRequest *request) {
+      content = style_css();
+      content += "<!DOCTYPE HTML>\r\n<html>go back";
+      content += settings_html();
+      request->send(200, "text/html", content);
+    });
+  
   
   }
 

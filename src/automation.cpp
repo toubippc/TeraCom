@@ -13,8 +13,8 @@ int relay3_timeOff = 0;
 int relay4_timeOn = 0;
 int relay4_timeOff = 0;
 
-//int temp1min = [];
-//int temp1max = [];
+int temp1min = 0;
+int temp1max = 0;
 
 int temp2min = 0;
 int temp2max = 0;
@@ -25,16 +25,37 @@ int temp3max = 0;
 int humidity1min = 0;
 int humidity1max = 0;
 
+
+Temp temp1, temp2, temp3;
+
 std::map<String, int> timesRules;
 std::map<String, int> deviceRules;
 
 void automation(void) {
+    
+    // Zone chaude
+    temp1.min = 33;
+    temp1.max = 35;
+    
+    // Zone froide
+    temp2.min = 24;
+    temp2.max = 26;
+
+    // Zone tempérée
+    temp3.min = 28;
+    temp3.max = 30;
+    
+    // Humidité
+    
+    
     // Sondes
+    /*
     dht.humidity().getEvent(&event);
     analog4Value = event.relative_humidity;
     dht.temperature().getEvent(&event);
     analog3Value = event.temperature;
-    
+    */
+   
     // analog1Value : Zone chaude
     // analog2Value : Zone froide
     // analog3Value : Zone tempérée
@@ -69,7 +90,7 @@ void automation(void) {
                 if (analog3Value >= 30 ) { digitalWrite(pinRelay2, OFF); } // UV OFF
                 if (analog3Value <= 28 ) { digitalWrite(pinRelay2, ON); } // UV ON
                 //if (analog3Value >= 35 ) { digitalWrite(pinRelay0, ON); }
-                 analog3Value = (analog3Value >= 33 ) ? ON : OFF; // Ventilation ON
+                 digitalWrite(pinRelay0, (analog3Value >= 33 ) ? ON : OFF); // Ventilation ON
             
                 // Controle des spots
                 if (10 >= timeinfo.tm_hour && timeinfo.tm_hour <= 16) {

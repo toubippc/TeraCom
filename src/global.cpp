@@ -38,10 +38,10 @@ String WIFI_AP_Name = "hackme";
 char *http_username = "admin";
 char *http_password = "*hackme*";
 
-String NameRelay0 = "Relay 0";
-String NameRelay1 = "Relay 1";
-String NameRelay2 = "Relay 2";
-String NameRelay3 = "Relay 3";
+String NameRelay0 = "Chauffage";
+String NameRelay1 = "Spot / Lampe chauffante";
+String NameRelay2 = "UV / Lampe jour";
+String NameRelay3 = "Vent / Clim";
 
 String NameSensors1 = "Zone chaude";
 String NameSensors2 = "Zone froide";

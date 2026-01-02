@@ -1,32 +1,11 @@
 #include "automation.h"
 
-
-int relay1_timeOn = 0;
-int relay1_timeOff = 0;
-
-int relay2_timeOn = 0;
-int relay2_timeOff = 0;
-
-int relay3_timeOn = 0;
-int relay3_timeOff = 0;
-
-int relay4_timeOn = 0;
-int relay4_timeOff = 0;
-
-int temp1min = 0;
-int temp1max = 0;
-
-int temp2min = 0;
-int temp2max = 0;
-
-int temp3min = 0;
-int temp3max = 0;
-
 int humidity1min = 0;
 int humidity1max = 0;
 
 
-Temp temp1, temp2, temp3;
+Temp temp1, temp2, temp3, humidity1;
+Program program;
 
 std::map<String, int> timesRules;
 std::map<String, int> deviceRules;
@@ -36,18 +15,23 @@ void automation(void) {
     // Zone chaude
     temp1.min = 33;
     temp1.max = 35;
-    
+    program.summer.day.temp1 = temp1;
+
     // Zone froide
     temp2.min = 24;
     temp2.max = 26;
+    program.summer.day.temp2 = temp2;
 
     // Zone tempérée
     temp3.min = 28;
     temp3.max = 30;
-    
+    program.summer.day.temp3 = temp3;
+
     // Humidité
-    
-    
+    humidity1.min = 25;
+    humidity1.max = 75;
+    program.summer.day.humidity1 = humidity1;
+        
     // Sondes
     /*
     dht.humidity().getEvent(&event);

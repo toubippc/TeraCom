@@ -1,5 +1,6 @@
 .pio/build/esp32doit-devkit-v1/src/settings_html.cpp.o: \
- src/settings_html.cpp include/html/settings_html.h include/global.h \
+ src/settings_html.cpp include/html/settings_html.h include/automation.h \
+ include/global.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/Arduino.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp_arduino_version.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/freertos/FreeRTOS.h \
@@ -10,7 +11,6 @@
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/xtensa/include/xtensa/hal.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/xtensa/esp32/include/xtensa/config/core.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/xtensa/include/xtensa/xtensa-versions.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/xtensa/esp32/include/xtensa/config/core-isa.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/xtensa/esp32/include/xtensa/config/core-matmap.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/xtensa/esp32/include/xtensa/config/tie.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/xtensa/esp32/include/xtensa/config/system.h \
@@ -29,7 +29,6 @@
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/xtensa/esp32/include/xtensa/config/specreg.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/xtensa/include/xtensa/xtruntime-core-state.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/xtensa/include/xt_instr_macros.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/xtensa/include/xtensa/xtruntime.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_hw_support/include/soc/spinlock.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_hw_support/include/soc/cpu.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_hw_support/include/esp_cpu.h \
@@ -84,7 +83,6 @@
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/log/include/esp_log_internal.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-matrix.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-uart.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/hal/include/hal/uart_types.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-gpio.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/variants/doitESP32devkitV1/pins_arduino.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-touch.h \
@@ -123,7 +121,6 @@
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/IPAddress.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/HardwareSerial.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/HWCDC.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/USBCDC.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/Esp.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/spi_flash/include/esp_partition.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/spi_flash/include/esp_flash.h \
@@ -132,8 +129,6 @@
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/spi_flash/include/esp_spi_flash.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/spi_flash/include/esp_spi_flash_counters.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_hw_support/include/soc/esp32/spiram.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/io_pin_remap.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/Arduino.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/DNSServer/src/DNSServer.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiUdp.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
@@ -182,7 +177,6 @@
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/def.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/ip6_zone.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/include/apps/dhcpserver/dhcpserver.h \
- /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/err.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_netif/include/esp_netif_sta_list.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_wifi/include/esp_smartconfig.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/wifi_provisioning/include/wifi_provisioning/manager.h \
@@ -198,6 +192,7 @@
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiUdp.h \
  .pio/libdeps/esp32doit-devkit-v1/AsyncTCP-esphome/src/AsyncTCP.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/pbuf.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/err.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/EEPROM/src/EEPROM.h \
  .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/ESPAsyncWebServer.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/FS/src/FS.h \
@@ -209,5 +204,4 @@
  .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/AsyncEventSource.h \
  .pio/libdeps/esp32doit-devkit-v1/Adafruit\ Unified\ Sensor/Adafruit_Sensor.h \
  .pio/libdeps/esp32doit-devkit-v1/DHT\ sensor\ library/DHT.h \
- .pio/libdeps/esp32doit-devkit-v1/DHT\ sensor\ library/DHT_U.h \
- include/automation.h include/global.h
+ .pio/libdeps/esp32doit-devkit-v1/DHT\ sensor\ library/DHT_U.h

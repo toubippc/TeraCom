@@ -324,12 +324,48 @@ void createWebServer()
       request->send(200, "text/plain", "OK");
     });
     
-    // ECU Update HTML button
+    // Settings HTML page
     server.on("/auto", [] (AsyncWebServerRequest *request) {
       content = style_css();
       content += "<!DOCTYPE HTML>\r\n<html>";
       content += settings_html();
       request->send(200, "text/html", content);
+    });
+
+    // Save settings from HTML page
+    server.on("/setprogram", [] (AsyncWebServerRequest *request) {
+      if(!request->authenticate(http_username, http_password))
+        return request->requestAuthentication();
+      // HERE SAVE SETTINGS TO EEPROM
+      if(request->args() != 0) {
+        String summerbeginDD = request->arg("summerbeginDD");
+        String summerbeginMM = request->arg("summerbeginMM");
+        String winterbeginDD = request->arg("winterbeginDD");
+        String winterbeginMM = request->arg("winterbeginMM");
+
+        String DayBeginHH = request->arg("DayBeginHH");
+        String DayBeginMM = request->arg("DayBeginMM");
+        String NightBeginHH = request->arg("NightBeginHH");
+        String NightBeginMM = request->arg("NightBeginMM");
+
+        program.summer.day.temp1.min = request->arg("summer_day_temp1min").toInt();
+        program.summer.day.temp1.max = request->arg("summer_day_temp1max").toInt();
+
+        program.summer.day.temp2.min = request->arg("summer_day_temp2min").toInt();
+        program.summer.day.temp2.max = request->arg("summer_day_temp2max").toInt();
+
+        program.summer.day.temp3.min = request->arg("summer_day_temp3min").toInt();
+        program.summer.day.temp3.max = request->arg("summer_day_temp3max").toInt();
+        
+        program.summer.day.humidity1.min = request->arg("summer_day_humidity1min").toInt();
+        program.summer.day.humidity1.max = request->arg("summer_day_humidity1max").toInt();
+
+        Serial.println("Settings to save:");
+        Serial.println("Summer begin: " + summerbeginDD + "/" + summerbeginMM);
+        Serial.println("Winter begin: " + winterbeginDD + "/" + winterbeginMM);
+        Serial.println("Day begin: " + DayBeginHH + "h" + DayBeginMM);
+      }
+      request->send(200, "text/plain", "Settings saved!");
     });
   
   

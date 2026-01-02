@@ -6,11 +6,55 @@
 
 using namespace std;
 
-struct Temp { int min; int max; };
-
-extern Temp temp1, temp2, temp3;
 struct { int relay; int sensors; int value; } devices;
 struct { int beginTime; int endTime; int function; } shedules;
+
+// PRAGRAMMATION
+struct Temp { int min; int max; };
+
+extern Temp temp1, temp2, temp3, humidity1;
+
+struct Program { 
+    struct Summer {
+        int begin;
+        int end;
+        struct Day {
+            int begin;
+            int end;
+            Temp temp1;
+            Temp temp2;
+            Temp temp3;
+            Temp humidity1;
+        } day;
+        struct Night {
+            Temp temp1;
+            Temp temp2;
+            Temp temp3;
+            Temp humidity1;
+        } night;
+    } summer;
+    struct Winter {
+        int begin;
+        int end;
+        struct Day {
+            int begin;
+            int end;
+            Temp temp1;
+            Temp temp2;
+            Temp temp3;
+            Temp humidity1;
+        } day;
+        struct Night {
+            Temp temp1;
+            Temp temp2;
+            Temp temp3;
+            Temp humidity1;
+        } night;
+    } winter;
+};
+
+extern Program program;
+
 
 #define RELAY_INV 1
 

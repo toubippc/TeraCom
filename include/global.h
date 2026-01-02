@@ -72,35 +72,6 @@ extern const int freq;
 extern const int ledChannel;
 extern const int resolution;
 
-// setting status time
-extern int relay1_timeOn;
-extern int relay1_timeOff;
-
-extern int relay2_timeOn;
-extern int relay2_timeOff;
-
-extern int relay3_timeOn;
-extern int relay3_timeOff;
-
-extern int relay4_timeOn;
-extern int relay4_timeOff;
-
-
-extern int timeOn[];
-extern int timeOff[];
-
-extern int temp1min;
-extern int temp1max;
-
-extern int temp2min;
-extern int temp2max;
-
-extern int temp3min;
-extern int temp3max;
-
-extern int temp4min;
-extern int temp4max;
-
 extern int humidity1min;
 extern int humidity1max;
 

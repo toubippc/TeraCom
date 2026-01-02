@@ -327,7 +327,7 @@ void createWebServer()
     // ECU Update HTML button
     server.on("/auto", [] (AsyncWebServerRequest *request) {
       content = style_css();
-      content += "<!DOCTYPE HTML>\r\n<html>go back";
+      content += "<!DOCTYPE HTML>\r\n<html>";
       content += settings_html();
       request->send(200, "text/html", content);
     });

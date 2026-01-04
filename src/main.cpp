@@ -139,7 +139,6 @@ void setup()
   // Set delay between sensor readings based on sensor details.
   delayMS = sensor.min_delay / 1000;
          
-
 }
 
 
@@ -250,9 +249,8 @@ void launchWeb()
   Serial.println(WiFi.localIP());
   Serial.print("SoftAP IP: ");
   Serial.println(WiFi.softAPIP());
-  createWebServer();
   // Start the server
-  server.begin();
+  createWebServer();
   Serial.println("Server started");
 }
 

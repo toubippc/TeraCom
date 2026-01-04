@@ -1,6 +1,7 @@
-ottowinter/ESPAsyncWebServer-esphome@^3.1.0
+esp32async/AsyncTCP @ ^3.4.10
+esp32async/ESPAsyncWebServer@^3.9.4
 adafruit/Adafruit Unified Sensor@^1.1.14
-ottowinter/ESPAsyncTCP-esphome@^1.2.3
 paulstoffregen/OneWire@^2.3.8
+ayushsharma82/ElegantOTA@^3.1.7
 milesburton/DallasTemperature@^3.11.0
 adafruit/DHT sensor library@^1.4.6

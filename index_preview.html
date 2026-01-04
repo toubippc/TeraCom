@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Preview — LéoMatic Module</title>
+  <style>
+    :root{
+      --bg:#1a1a1e; --card:#242428; --text:#f5f5f5; --muted:#a0a0a8; --accent-orange:#ff8c00; --accent-yellow:#ffc107; --accent-red:#ff3333; --accent-white:#ffffff;
+    }
+    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--text);background:var(--bg)}
+    .wrap{max-width:1100px;margin:28px auto;padding:18px}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;border-bottom:2px solid var(--accent-orange);padding-bottom:14px}
+    header h1{font-size:1.8rem;margin:0;color:var(--accent-orange)}
+    header .time{color:var(--muted);font-size:0.95rem}
+    .section-title{font-size:1.2rem;font-weight:700;color:var(--accent-yellow);margin:28px 0 14px 0}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:28px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:10px;padding:16px;box-shadow:0 8px 20px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.04)}
+    .card-title{font-weight:600;margin-bottom:8px;color:var(--accent-yellow)}
+    .value{font-size:1.4rem;font-weight:700;margin-bottom:8px;color:var(--accent-white)}
+    .meter{height:12px;background:#3a3a3e;border-radius:999px;overflow:hidden}
+    .meter-fill{height:100%;background:linear-gradient(90deg,var(--accent-orange),var(--accent-red));width:20%}
+    .small{font-size:0.9rem;color:var(--muted)}
+    .relays{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+    .relay-btn{appearance:none;border:2px solid var(--accent-orange);background:transparent;color:var(--text);padding:14px 18px;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:all 0.2s}
+    .relay-btn:hover{background:var(--accent-orange);color:var(--bg)}
+    .relay-btn.on{background:var(--accent-red);border-color:var(--accent-red);color:var(--bg)}
+    .relay-btn.on:hover{background:#ff5555}
+    .relay-btn.off{background:transparent;border-color:var(--accent-orange)}
+    .footer-note{margin-top:28px;color:var(--muted);font-size:0.9rem;border-top:1px solid var(--accent-orange);padding-top:14px}
+
+    /* responsive tweaks */
+    @media (max-width:520px){header{flex-direction:column;align-items:flex-start} .relays{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🦎 LéoMatic Module</h1>
+      <div class="time" id="time">Time : --</div>
+    </header>
+
+    <div class="section-title">📊 Capteurs</div>
+    <div class="cards">
+
+      <div class="card" id="card-1">
+        <div class="card-title">Temperature Zone chaude</div>
+        <div class="value" id="v1">18.3°C</div>
+        <div class="meter" aria-hidden><div class="meter-fill" id="m1" style="width:18.3%"></div></div>
+        <div class="small">Sonde : Zone chaude</div>
+      </div>
+
+      <div class="card" id="card-2">
+        <div class="card-title">Temperature Zone froide</div>
+        <div class="value" id="v2">18.3°C</div>
+        <div class="meter"><div class="meter-fill" id="m2" style="width:18.3%"></div></div>
+        <div class="small">Sonde : Zone froide</div>
+      </div>
+
+      <div class="card" id="card-3">
+        <div class="card-title">Temperature Ambiante</div>
+        <div class="value" id="v3">19.5°C</div>
+        <div class="meter"><div class="meter-fill" id="m3" style="width:19.5%"></div></div>
+        <div class="small">Sonde : Ambiante</div>
+      </div>
+
+      <div class="card" id="card-4">
+        <div class="card-title">Humidité</div>
+        <div class="value" id="v4">29.4%</div>
+        <div class="meter"><div class="meter-fill" id="m4" style="width:29.4%"></div></div>
+        <div class="small">Sonde : Humidité</div>
+      </div>
+
+    </div>
+
+    <div class="section-title">⚡ Relais</div>
+    <div class="relays">
+      <button class="relay-btn off" id="relay0" onclick="toggleRelay(0, this)">
+        <span id="r0-name">Chauffage</span>: <span id="r0-state">OFF</span>
+      </button>
+      <button class="relay-btn off" id="relay1" onclick="toggleRelay(1, this)">
+        <span id="r1-name">Spot / Lampe chauffante</span>: <span id="r1-state">OFF</span>
+      </button>
+      <button class="relay-btn off" id="relay2" onclick="toggleRelay(2, this)">
+        <span id="r2-name">UV / Lampe jour</span>: <span id="r2-state">OFF</span>
+      </button>
+      <button class="relay-btn off" id="relay3" onclick="toggleRelay(3, this)">
+        <span id="r3-name">Vent / Clim</span>: <span id="r3-state">OFF</span>
+      </button>
+    </div>
+
+    <div class="footer-note">Aperçu HTML/CSS + JS minimal — Palette gecko léopard (noir, orange, jaune, rouge). Relais gérés indépendamment.</div>
+  </div>
+
+  <script>
+    // preview JS: fetches /getdht11 from same origin every 5s and updates UI if available
+    async function fetchData(){
+      try{
+        const res = await fetch('/getdht11');
+        if(!res.ok) throw new Error('no-data');
+        const j = await res.json();
+        // keys: temperature_0, temperature_1, dht_1, humidity_1
+        const t0 = parseFloat(j.temperature_0)||0;
+        const t1 = parseFloat(j.temperature_1)||0;
+        const dht = parseFloat(j.dht_1)||0;
+        const hum = parseFloat(j.humidity_1)||0;
+        document.getElementById('v1').textContent = t0.toFixed(1)+"°C";
+        document.getElementById('m1').style.width = Math.max(0,Math.min(100,t0)) + '%';
+        document.getElementById('v2').textContent = t1.toFixed(1)+"°C";
+        document.getElementById('m2').style.width = Math.max(0,Math.min(100,t1)) + '%';
+        document.getElementById('v3').textContent = dht.toFixed(1)+"°C";
+        document.getElementById('m3').style.width = Math.max(0,Math.min(100,dht)) + '%';
+        document.getElementById('v4').textContent = hum.toFixed(1)+'%';
+        document.getElementById('m4').style.width = Math.max(0,Math.min(100,hum)) + '%';
+      }catch(e){
+        // silent
+      }
+    }
+    function toggleRelay(i, el){
+      const state = document.getElementById('r'+i+'-state');
+      const isOn = state.textContent === 'ON';
+      state.textContent = isOn ? 'OFF' : 'ON';
+      el.classList.toggle('on');
+      el.classList.toggle('off');
+      // optional: appel API
+      // fetch(`/relay?id=${i}&state=${isOn ? 0 : 1}`)
+    }
+    // time display
+    function updateTime(){
+      const d = new Date();
+      const opt = {month:'long',day:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'};
+      document.getElementById('time').textContent = 'Time : ' + d.toLocaleString('fr-FR',opt);
+    }
+    updateTime(); setInterval(updateTime,1000);
+    fetchData(); setInterval(fetchData,5000);
+  </script>
+</body>
+</html>

@@ -135,6 +135,8 @@ void createWebServer()
     */
     server.begin();
     Serial.println("HTTP server started");
+    ElegantOTA.begin(&server);    // Start ElegantOTA
+    ElegantOTA.loop();
     
     NameRelay0 = (EEPROM.readString(64) == "") ? "Relay 0" : EEPROM.readString(64);
     NameRelay1 = (EEPROM.readString(128) == "") ? "Relay 1" : EEPROM.readString(128);

@@ -9,9 +9,8 @@
 #endif
 #include <EEPROM.h>
 #include <time.h>
-
 #include "ESPAsyncWebServer.h"
-
+#include <ElegantOTA.h>
 
 // REQUIRES the following Arduino libraries:
 // - DHT Sensor Library: https://github.com/adafruit/DHT-sensor-library

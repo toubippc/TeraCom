@@ -12,17 +12,25 @@ const char index_html[] PROGMEM = R"rawliteral(
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>LeoMatic</title>
   <style>
-    body {background : rgb(250,250,255); max-width: 800px; margin: auto; padding-left: 5px; padding-bottom: 25px;}
-    input {font-size: 1.3rem; margin : 10px; padding: 10px;}
-    input.buttonMenu {width : 75px; border : none; }
+    :root{--bg:#1a1a1e;--card:#242428;--text:#f5f5f5;--muted:#a0a0a8;--accent-orange:#ff8c00;--accent-yellow:#ffc107;--accent-red:#ff3333}
+    body {background : var(--bg); max-width: 900px; margin: auto; padding-left: 5px; padding-bottom: 25px; color: var(--text);}
+    input {font-size: 1.3rem; margin : 10px; padding: 10px; background:#242428; color:#f5f5f5; border:1px solid #ff8c00;}
+    input.buttonMenu {width : 75px; border : none; background:#ff8c00; color:#1a1a1e; font-weight:600; cursor:pointer;}
     div#bodyheader {
-        display: grid;
-        grid-template-columns: 4fr 1fr;
-        background : lavender;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        border-bottom: 2px solid var(--accent-orange);
+        padding: 12px 6px 14px 6px;
+        margin-bottom: 18px;
       }
-    h2 {
-        font-size: 2.3rem;
+    h2, h1 {
+        font-size: 1.6rem;
+        color: var(--accent-orange);
+        margin: 0;
       }
+    .time {color: var(--muted); font-size: 0.95rem}
     div#settingsMenu {
       text-align : right;
     }
@@ -31,33 +39,42 @@ const char index_html[] PROGMEM = R"rawliteral(
         position : relative;
         min-width : 75px;
         text-align : right;
-        border : 1px solid gray;
-        box-shadow: 0px 0px 1px 1px rgb(204, 203, 203);
+        border : 1px solid #ff8c00;
+        box-shadow: 0px 0px 8px rgba(255,140,0,0.3);
+        background: #242428;
+        border-radius: 4px;
       } 
       div#menuItems input {
         width : -moz-available;
+        background: #1a1a1e;
+        color: #ff8c00;
+        border: none;
       }   
-    p {font-size: 1.3rem;}
+    p {font-size: 1.3rem; color: #f5f5f5;}
     p {display : inline-flexbox;}
     p#sliderText {display : none;}
     p#slider {display : none;}
-    .slider { -webkit-appearance: none; margin: 14px; width: 360px; height: 25px; background: #FFD65C;
-      outline: none; -webkit-transition: .2s; transition: opacity .2s;}
-    .slider::-webkit-slider-thumb {-webkit-appearance: none; appearance: none; width: 35px; height: 35px; background: #003249; cursor: pointer;}
-    .slider::-moz-range-thumb { width: 35px; height: 35px; background: #003249; cursor: pointer; } 
+    .slider { -webkit-appearance: none; margin: 14px; width: 360px; height: 25px; background: #ffc107;
+      outline: none; -webkit-transition: .2s; transition: opacity .2s; border-radius: 5px;}
+    .slider::-webkit-slider-thumb {-webkit-appearance: none; appearance: none; width: 35px; height: 35px; background: #ff3333; cursor: pointer; border-radius: 50%;}
+    .slider::-moz-range-thumb { width: 35px; height: 35px; background: #ff3333; cursor: pointer; border-radius: 50%;} 
 
     table#camControl button {
       margin : auto;
       padding : 3px;
-      border : 1px solid black;
+      border : 2px solid #ff8c00;
       width : 75px;
+      background: transparent;
+      color: #f5f5f5;
+      cursor: pointer;
+      border-radius: 4px;
     }
       
     div#line1 {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       margin: 10px;
-      width: 100%%;
+      width: 95%%;
     }
       
     
@@ -70,16 +87,17 @@ const char index_html[] PROGMEM = R"rawliteral(
     .gauge {
       width: 100%%;
       height: 20px;
-      background: #f0f0f0;
+      background: #2a2a2e;
       border-radius: 10px;
       overflow: hidden;
       position: relative;
+      border: 1px solid #ff8c00;
     }
     
     .gauge-fill {
       height: 100%%;
       width: 0%%;
-      background: linear-gradient(to right, #fff 0%%, #2600ff 40%%, #f44336 100%%);
+      background: linear-gradient(to right, #ff8c00 0%%, #ffc107 50%%, #ff3333 100%%);
       transition: width 0.3s ease;
       border-radius: 10px;
     }
@@ -97,12 +115,13 @@ const char index_html[] PROGMEM = R"rawliteral(
     .gauge-mark {
       width: 1px;
       height: 10px;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(255, 140, 0, 0.3);
       position: relative;
     }
     
     .gauge-mark.major {
       height: 15px;
+      background: rgba(255, 140, 0, 0.6);
     }
     
     .gauge-labels {
@@ -112,7 +131,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       margin-top: 5px;
       padding: 0 10px;
       box-sizing: border-box;
-      color: #666;
+      color: #a0a0a8;
       font-family: Arial, sans-serif;
       font-size: 12px;
     }
@@ -121,12 +140,13 @@ const char index_html[] PROGMEM = R"rawliteral(
       position: absolute;
       top: -25px;
       transform: translateX(-50%%);
-      background: #333;
-      color: white;
+      background: #ff8c00;
+      color: #1a1a1e;
       padding: 2px 8px;
       border-radius: 3px;
       font-family: Arial, sans-serif;
       font-size: 14px;
+      font-weight: 600;
     }
     
     .current-value::after {
@@ -137,40 +157,61 @@ const char index_html[] PROGMEM = R"rawliteral(
       transform: translateX(-50%%);
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-top: 5px solid #333;
+      border-top: 5px solid #ff8c00;
     }
       
     .hidden {
       display: none;
       position: absolute;
     }
+
+    /* Card layout (preview-like) */
+    .wrap {max-width:900px;margin:0 auto;padding:12px}
+    .cards {display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:15px;margin:5px 4px}
+    .card {background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:10px;padding:12px;box-shadow:0 8px 18px rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.04); min-width: fit-content;}
+    .card-title{font-weight:700;margin-bottom:8px;color:#ffc107}
+    .value{font-size:1.3rem;font-weight:700;margin-bottom:8px;color:#f5f5f5}
+    .small{font-size:0.9rem;color:#a0a0a8}
+    .relay-btn{appearance:none;border:2px solid #ff8c00;background:transparent;color:#f5f5f5;padding:10px 12px;border-radius:8px;font-weight:700;cursor:pointer;transition:all 0.18s}
+    .relay-btn:hover{background:#ff8c00;color:#1a1a1e}
+    .relay-btn.on{background:#ff3333;border-color:#ff3333;color:#1a1a1e}
+    @media (max-width:520px){.cards{grid-template-columns:1fr}}
+    .relays{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 4px}
+    .relay-card{background:transparent;border-radius:8px;padding:6px;display:flex;flex-direction:column;align-items:stretch;gap:6px}
+    .relay-card .relay-btn{width:100%;text-align:center}
+    
+    label {
+      color: #ffc107;
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 
 <body>
-  <div id="bodyheader">
-      <h2>LéoMatic Module</h2>
+    <div id="bodyheader">
+      <h2>🦎 LéoMatic Module</h2>
+      <div style="display:flex;align-items:center;gap:12px;">
+      <div class="time" id="time">Time : <span id="timeValue">%TIME%</span></div>
       <div id="settingsMenu">
-          <form action="menu" method="POST"><input class="buttonMenu" type="button" onclick="displayMenu()" value="&#9776;"></form>
-          <div id="menuItems">
-              <form action="network" method="POST"><input type="submit" value="&#8644; Network"></form>
-              <form action="tweak" method="POST"><input type="submit" value="&#10049; Tweak"></form>
-              <form action="auto" method="POST"><input type="submit" value="&#10049; Settings"></form>
-          </div>
+        <form action="menu" method="POST"><input class="buttonMenu" type="button" onclick="displayMenu()" value="&#9776;"></form>
+        <div id="menuItems">
+          <form action="network" method="POST"><input type="submit" value="&#8644; Network"></form>
+          <form action="tweak" method="POST"><input type="submit" value="&#10049; Tweak"></form>
+          <form action="auto" method="POST"><input type="submit" value="&#10049; Settings"></form>
+        </div>
       </div>
-  </div>
+      </div>
+    </div>
 
   <div id="line1">
-    <div id="ecu_content">
-      <!-- Bouton arret urgence -->
-      <p>ECU : <input type="button" onclick="ecu(this)" id="ecu" value=" %ECU% "></p>
-    </div>
-    <div id="time_content">
-      <!-- Affichage de l'heure -->
-      <p id="time">Time : <span id="timeValue">%TIME%</span></p>
-    </div>
+
     
     
+  <div class="section-title">📊 Capteurs</div>
+
   <div class="hidden">
     <p>Input : </p>
     <p>Zone chaude : <span id="temp0"> %ANALOG1% </span>&degC</p>
@@ -179,76 +220,107 @@ const char index_html[] PROGMEM = R"rawliteral(
     <p>Humidite : <span id="humidity1"> %HUMIDITY% </span>&percnt</p>
   </div>
   
-  <label for="gauge">Temperature %SONDE1% </label>
-  <div id="gauge" class="gauge-container">
-      <div class="current-value">0&degC</div>
-      <div class="gauge">
-        <div class="gauge-marks"></div>
-        <div class="gauge-fill"></div>
+  <div class="cards">
+    <div class="card" id="card-1">
+      <div class="card-title">Temperature %SONDE1%</div>
+      <div class="value" id="v1"> %ANALOG1% &degC</div>
+      <div id="gauge" class="gauge-container">
+          <div class="current-value">0&degC</div>
+          <div class="gauge">
+            <div class="gauge-marks"></div>
+            <div class="gauge-fill"></div>
+          </div>
+          <div class="gauge-labels">
+            <span>0&deg;C</span>
+            <span>20&deg;C</span>
+            <span>40&deg;C</span>
+            <span>60&deg;C</span>
+            <span>80&deg;C</span>
+            <span>100&deg;C</span>
+          </div>
       </div>
-      <div class="gauge-labels">
-        <span>0&deg</span>
-        <span>20&degC</span>
-        <span>40&degC</span>
-        <span>60&degC</span>
-        <span>80&degC</span>
-        <span>100&degC</span>
+      <div class="small">Sonde : %SONDE1%</div>
+    </div>
+
+    <div class="card" id="card-2">
+      <div class="card-title">Temperature Zone %SONDE2%</div>
+      <div class="value" id="v2"> %ANALOG2% &degC</div>
+      <div id="gauge1" class="gauge-container">
+          <div class="current-value">0&degC</div>
+          <div class="gauge">
+            <div class="gauge-marks"></div>
+            <div class="gauge-fill"></div>
+          </div>
+          <div class="gauge-labels">
+            <span>0&deg</span>
+            <span>20&degC</span>
+            <span>40&degC</span>
+            <span>60&degC</span>
+            <span>80&degC</span>
+            <span>100&degC</span>
+          </div>
       </div>
-  </div>
-  <label for="gauge1">Temperature Zone %SONDE2% </label>
-  <div id="gauge1" class="gauge-container">
-      <div class="current-value">0&degC</div>
-      <div class="gauge">
-        <div class="gauge-marks"></div>
-        <div class="gauge-fill"></div>
+      <div class="small">Sonde : %SONDE2%</div>
+    </div>
+
+    <div class="card" id="card-3">
+      <div class="card-title">Temperature %SONDE3%</div>
+      <div class="value" id="v3"> %DHT1% &degC</div>
+      <div id="gauge2" class="gauge-container">
+          <div class="current-value">0&degC</div>
+          <div class="gauge">
+            <div class="gauge-marks"></div>
+            <div class="gauge-fill"></div>
+          </div>
+          <div class="gauge-labels">
+            <span>0&degC</span>
+            <span>20&degC</span>
+            <span>40&degC</span>
+            <span>60&degC</span>
+            <span>80&degC</span>
+            <span>100&degC</span>
+          </div>
       </div>
-      <div class="gauge-labels">
-        <span>0&deg</span>
-        <span>20&degC</span>
-        <span>40&degC</span>
-        <span>60&degC</span>
-        <span>80&degC</span>
-        <span>100&degC</span>
+      <div class="small">Sonde : %SONDE3%</div>
+    </div>
+
+    <div class="card" id="card-4">
+      <div class="card-title">%SONDE4%</div>
+      <div class="value" id="v4"> %HUMIDITY% &percnt;</div>
+      <div id="gauge3" class="gauge-container">
+          <div class="current-value">?<span>&percnt;</span></div>
+          <div class="gauge">
+            <div class="gauge-marks"></div>
+            <div class="gauge-fill"></div>
+          </div>
+          <div class="gauge-labels">
+            <span>0&percnt;</span>
+            <span>20&percnt;</span>
+            <span>40&percnt;</span>
+            <span>60&percnt;</span>
+            <span>80&percnt;</span>
+            <span>100&percnt;</span>
+          </div>
       </div>
-  </div>
-  <label for="gauge2">Temperature %SONDE3% </label>
-  <div id="gauge2" class="gauge-container">
-      <div class="current-value">0&degC</div>
-      <div class="gauge">
-        <div class="gauge-marks"></div>
-        <div class="gauge-fill"></div>
-      </div>
-      <div class="gauge-labels">
-        <span>0&degC</span>
-        <span>20&degC</span>
-        <span>40&degC</span>
-        <span>60&degC</span>
-        <span>80&degC</span>
-        <span>100&degC</span>
-      </div>
-  </div>
-  <label for="gauge3"> %SONDE4% </label>
-  <div id="gauge3" class="gauge-container">
-      <div class="current-value">?<span>&percnt;</span></div>
-      <div class="gauge">
-        <div class="gauge-marks"></div>
-        <div class="gauge-fill"></div>
-      </div>
-      <div class="gauge-labels">
-        <span>0&percnt;</span>
-        <span>20&percnt;</span>
-        <span>40&percnt;</span>
-        <span>60&percnt;</span>
-        <span>80&percnt;</span>
-        <span>100&percnt;</span>
-      </div>
+      <div class="small">Sonde : %SONDE4%</div>
+    </div>
   </div>
   
-  <p><label for="out0">%RELAY0% : </label><input type="button" onclick="relay(this)" id="out1" value="%STATEOUT0%"></p>
-  <p><label for="out1">%RELAY1% : </label><input type="button" onclick="relay(this)" id="out1" value="%STATEOUT1%"></p>
-  <p><label for="out2">%RELAY2% : </label><input type="button" onclick="relay(this)" id="out2" value="%STATEOUT2%"></p>
-  <p><label for="out3">%RELAY3% : </label><input type="button" onclick="relay(this)" id="out3" value="%STATEOUT3%"></p>
+  <div class="section-title">⚡ Relais</div>
+  <div class="relays">
+    <div class="relay-card"><div class="small">%RELAY0%</div><input class="relay-btn" type="button" id="out0" onclick="relay(this)" value="%STATEOUT0%"></div>
+    <div class="relay-card"><div class="small">%RELAY1%</div><input class="relay-btn" type="button" id="out1" onclick="relay(this)" value="%STATEOUT1%"></div>
+    <div class="relay-card"><div class="small">%RELAY2%</div><input class="relay-btn" type="button" id="out2" onclick="relay(this)" value="%STATEOUT2%"></div>
+    <div class="relay-card"><div class="small">%RELAY3%</div><input class="relay-btn" type="button" id="out3" onclick="relay(this)" value="%STATEOUT3%"></div>
+  </div>
 
+  <div id="ecu_content">
+    <!-- Bouton arret urgence -->
+    <p>ECU : <input type="button" onclick="ecu(this)" id="ecu" value=" %ECU% "></p>
+  </div>
+  
+  </div>
+  
 <script>
 
  // request data updates every 5000 milliseconds
@@ -373,12 +445,16 @@ function updateSensor() {
             var data = JSON.parse(xhr.responseText);
             document.getElementById("temp0").innerHTML = data.temperature_0;
             gauge.setValue(data.temperature_0); // Définir une valeur pour la gauge
+            if(document.getElementById('v1')) document.getElementById('v1').textContent = parseFloat(data.temperature_0).toFixed(1) + '\u00B0C';
             document.getElementById("temp1").innerHTML = data.temperature_1;
             gauge1.setValue(data.temperature_1); // Définir une valeur pour la gauge1
+            if(document.getElementById('v2')) document.getElementById('v2').textContent = parseFloat(data.temperature_1).toFixed(1) + '\u00B0C';
             document.getElementById("dht1").innerHTML = data.dht_1;
             gauge2.setValue(data.dht_1); // Définir une valeur pour la gauge2
+            if(document.getElementById('v3')) document.getElementById('v3').textContent = parseFloat(data.dht_1).toFixed(1) + '\u00B0C';
             document.getElementById("humidity1").innerText = data.humidity_1;
             gauge3.setValue(data.humidity_1); // Définir une valeur pour la gauge3
+            if(document.getElementById('v4')) document.getElementById('v4').textContent = parseFloat(data.humidity_1).toFixed(1) + '%';
 
           } else { // a problem occurred
 

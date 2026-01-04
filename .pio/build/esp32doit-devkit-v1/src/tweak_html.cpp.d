@@ -196,17 +196,28 @@
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiServer.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/Server.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiUdp.h \
- .pio/libdeps/esp32doit-devkit-v1/AsyncTCP-esphome/src/AsyncTCP.h \
+ .pio/libdeps/esp32doit-devkit-v1/AsyncTCP/src/AsyncTCP.h \
+ .pio/libdeps/esp32doit-devkit-v1/AsyncTCP/src/AsyncTCPVersion.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/pbuf.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/EEPROM/src/EEPROM.h \
- .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/ESPAsyncWebServer.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer/src/ESPAsyncWebServer.h \
  /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/FS/src/FS.h \
- .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/StringArray.h \
- .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/WebResponseImpl.h \
- .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/WebHandlerImpl.h \
- .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/AsyncWebSocket.h \
- .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/AsyncWebSynchronization.h \
- .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer-esphome/src/AsyncEventSource.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/lwip/lwip/src/include/lwip/tcpbase.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer/src/AsyncWebServerVersion.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer/src/./literals.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer/src/AsyncEventSource.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer/src/AsyncWebSocket.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer/src/AsyncWebServerLogging.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-log.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer/src/WebHandlerImpl.h \
+ .pio/libdeps/esp32doit-devkit-v1/ESPAsyncWebServer/src/WebResponseImpl.h \
+ .pio/libdeps/esp32doit-devkit-v1/ElegantOTA/src/ElegantOTA.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/stdlib_noniso.h \
+ .pio/libdeps/esp32doit-devkit-v1/ElegantOTA/src/elop.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/libraries/Update/src/Update.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/MD5Builder.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/esp_rom/include/esp_rom_md5.h \
+ /home/toubippc/.platformio/packages/framework-arduinoespressif32/cores/esp32/StreamString.h \
  .pio/libdeps/esp32doit-devkit-v1/Adafruit\ Unified\ Sensor/Adafruit_Sensor.h \
  .pio/libdeps/esp32doit-devkit-v1/DHT\ sensor\ library/DHT.h \
  .pio/libdeps/esp32doit-devkit-v1/DHT\ sensor\ library/DHT_U.h

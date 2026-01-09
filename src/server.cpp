@@ -8,7 +8,9 @@
 // #include "dc_motors/move.h"
 #include "html/update_html.h"
 #include "html/index_html.h"
+#include "html/program_html.h"
 #include "html/settings_html.h"
+#include "html/summer_scenario_html.h"
 
 // DEVAULT VALUE
 String stateout0 = "OFF";
@@ -327,10 +329,17 @@ void createWebServer()
     });
     
     // Settings HTML page
-    server.on("/auto", [] (AsyncWebServerRequest *request) {
+    server.on("/program", [] (AsyncWebServerRequest *request) {
       content = style_css();
       content += "<!DOCTYPE HTML>\r\n<html>";
-      content += settings_html();
+      content += program_html();
+      request->send(200, "text/html", content);
+    });
+    // Settings summer scenario temperatures HTML page
+    server.on("/summer_scenario", [] (AsyncWebServerRequest *request) {
+      content = style_css();
+      content += "<!DOCTYPE HTML>\r\n<html>";
+      content += summer_scenario_html();
       request->send(200, "text/html", content);
     });
 
@@ -409,8 +418,17 @@ void createWebServer()
       }
       request->send(200, "text/plain", "Settings saved!");
     });
-  
-  
   }
 
+   // ESP Settings HTML page
+    server.on("/settings", [] (AsyncWebServerRequest *request) {
+      content = style_css();
+      content += settings_html();
+      request->send(200, "text/html", content);
+    });
+
+     server.on("/restartesp", [] (AsyncWebServerRequest *request) {
+      ESP.restart();
+      request->send(200, "text/html", content);
+    });
 }

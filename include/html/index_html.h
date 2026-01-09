@@ -187,6 +187,40 @@ const char index_html[] PROGMEM = R"rawliteral(
       margin-top: 15px;
       margin-bottom: 5px;
     }
+
+    .ecu_content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+      with: 100%;
+    }
+    .ecu_button {
+      appearance: none;
+      border: 2px solid #ff8c00;
+      background: transparent;
+      color: #f5f5f5;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      font-size: 1.2rem;
+      width: 95%;
+    }
+    .ecu_button:hover {
+      background: #ff8c00;
+      color: #1a1a1e;
+    }
+    
+    .ecu_button.active {
+      background: #ff3333;
+      border-color: #ff3333;
+      color: #d9d9d9;
+    }
+
+
   </style>
 </head>
 
@@ -200,7 +234,8 @@ const char index_html[] PROGMEM = R"rawliteral(
         <div id="menuItems">
           <form action="network" method="POST"><input type="submit" value="&#8644; Network"></form>
           <form action="tweak" method="POST"><input type="submit" value="&#10049; Tweak"></form>
-          <form action="auto" method="POST"><input type="submit" value="&#10049; Settings"></form>
+          <form action="program" method="POST"><input type="submit" value="&#10049; Program"></form>
+          <form action="settings" method="POST"><input type="submit" value="&#9881; Settings"></form>
         </div>
       </div>
       </div>
@@ -316,7 +351,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 
   <div id="ecu_content">
     <!-- Bouton arret urgence -->
-    <p>ECU : <input type="button" onclick="ecu(this)" id="ecu" value=" %ECU% "></p>
+    <p>ECU : <input type="button" onclick="ecu(this)" id="ecu_button" value=" %ECU% "></p>
   </div>
   
   </div>

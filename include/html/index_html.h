@@ -207,8 +207,8 @@ const char index_html[] PROGMEM = R"rawliteral(
     .ecu_button {
       appearance: none;
       border: 2px solid #ff0000;
-      background: --accent-red;
-      color: --text;
+      background: var(--accent-red);
+      color: var(--text);
       padding: 10px 20px;
       border-radius: 8px;
       font-weight: 700;
@@ -218,8 +218,8 @@ const char index_html[] PROGMEM = R"rawliteral(
       width: 95%%;
     }
     .ecu_button:hover {
-      background: --accent-red;
-      color: --text;
+      background: var(--accent-red) !important;
+      color: var(--text) !important;
     }
     
     .ecu_button.active {

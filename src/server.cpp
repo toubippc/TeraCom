@@ -74,16 +74,16 @@ String processor(const String& var){
   if(var == "SONDE4") {return NameSensors4; }
 
   if(var == "STATEOUT0") {
-    return stateout0  = digitalRead(pinRelay0);
+    return stateout0  = ( digitalRead(pinRelay0) == OFF ) ? "OFF" : "ON";
   }
     if(var == "STATEOUT1") {
-    return stateout1  = digitalRead(pinRelay1);
+    return stateout1  = ( digitalRead(pinRelay1) == OFF ) ? "OFF" : "ON";
   }
     if(var == "STATEOUT2") {
-    return stateout2  = digitalRead(pinRelay2);
+    return stateout2  = ( digitalRead(pinRelay2) == OFF ) ? "OFF" : "ON";
   }
     if(var == "STATEOUT3") {
-    return stateout3  = digitalRead(pinRelay3);
+    return stateout3  = ( digitalRead(pinRelay3) == OFF ) ? "OFF" : "ON";
   }
 
   if(var == "ANALOG1") {

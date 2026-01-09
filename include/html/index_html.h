@@ -172,13 +172,15 @@ const char index_html[] PROGMEM = R"rawliteral(
     .card-title{font-weight:700;margin-bottom:8px;color:#ffc107}
     .value{font-size:1.3rem;font-weight:700;margin-bottom:8px;color:#f5f5f5}
     .small{font-size:0.9rem;color:#a0a0a8}
+    .section-title{font-size:1.2rem;font-weight:700;color:var(--accent-yellow);margin:28px 0 14px 0}
+    .relays{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 4px}
     .relay-btn{appearance:none;border:2px solid #ff8c00;background:transparent;color:#f5f5f5;padding:10px 12px;border-radius:8px;font-weight:700;cursor:pointer;transition:all 0.18s}
     .relay-btn:hover{background:#ff8c00;color:#1a1a1e}
     .relay-btn.on{background:#ff3333;border-color:#ff3333;color:#1a1a1e}
     @media (max-width:520px){.cards{grid-template-columns:1fr}}
     .relays{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 4px}
     .relay-card{background:transparent;border-radius:8px;padding:6px;display:flex;flex-direction:column;align-items:stretch;gap:6px}
-    .relay-card .relay-btn{width:100%;text-align:center}
+    .relay-card .relay-btn{width:100%%;text-align:center}
     
     label {
       color: #ffc107;
@@ -194,24 +196,30 @@ const char index_html[] PROGMEM = R"rawliteral(
       align-items: center;
       justify-content: center;
       margin-top: 20px;
-      with: 100%;
+      width: 100%%;
     }
+      
+    .ecu_content p {
+      width: 100%%;
+      text-align: center;
+    }
+      
     .ecu_button {
       appearance: none;
-      border: 2px solid #ff8c00;
-      background: transparent;
-      color: #f5f5f5;
+      border: 2px solid #ff0000;
+      background: --accent-red;
+      color: --text;
       padding: 10px 20px;
       border-radius: 8px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.18s;
       font-size: 1.2rem;
-      width: 95%;
+      width: 95%%;
     }
     .ecu_button:hover {
-      background: #ff8c00;
-      color: #1a1a1e;
+      background: --accent-red;
+      color: --text;
     }
     
     .ecu_button.active {
@@ -349,9 +357,9 @@ const char index_html[] PROGMEM = R"rawliteral(
     <div class="relay-card"><div class="small">%RELAY3%</div><input class="relay-btn" type="button" id="out3" onclick="relay(this)" value="%STATEOUT3%"></div>
   </div>
 
-  <div id="ecu_content">
+  <div id="ecu_content" class="ecu_content">
     <!-- Bouton arret urgence -->
-    <p>ECU : <input type="button" onclick="ecu(this)" id="ecu_button" value=" %ECU% "></p>
+    <p>ECU : <input type="button" onclick="ecu(this)" id="ecu_button" class="ecu_button" value=" %ECU% "></p>
   </div>
   
   </div>

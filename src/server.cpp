@@ -11,6 +11,7 @@
 #include "html/program_html.h"
 #include "html/settings_html.h"
 #include "html/summer_scenario_html.h"
+#include "html/winter_scenario_html.h"
 
 // DEVAULT VALUE
 String stateout0 = "OFF";
@@ -342,6 +343,11 @@ void createWebServer()
       content += summer_scenario_html();
       request->send(200, "text/html", content);
     });
+    // Settings winter scenario temperatures HTML page
+    server.on("/winter_scenario", [] (AsyncWebServerRequest *request) {
+      content = winter_scenario_html();
+      request->send(200, "text/html", content);
+    });
 
     // Save settings from HTML page
     server.on("/setprogram", [] (AsyncWebServerRequest *request) {
@@ -351,21 +357,18 @@ void createWebServer()
       if(request->args() != 0) {
         
         // PROGRAM DATES
-        program.summer.beginDD = request->arg("summerbeginDD").toInt();
-        program.summer.beginMM = request->arg("summerbeginMM").toInt();
-        program.winter.beginDD = request->arg("winterbeginDD").toInt();
-        program.winter.beginMM = request->arg("winterbeginMM").toInt();
+          program.summer.beginDD = request->arg("summerbeginDD").toInt();
+          program.summer.beginMM = request->arg("summerbeginMM").toInt();
+          program.winter.beginDD = request->arg("winterbeginDD").toInt();
+          program.winter.beginMM = request->arg("winterbeginMM").toInt();
+        
 
         // DAY/NIGHT BEGIN TIMES
         program.summer.day.beginH = request->arg("summer_day_beginH").toInt();
         program.summer.day.beginM = request->arg("summer_day_beginM").toInt();
         program.summer.night.beginH = request->arg("summer_night_beginH").toInt();
         program.summer.night.beginM = request->arg("summer_night_beginM").toInt();
-
-        program.winter.day.beginH = request->arg("winter_day_beginH").toInt();
-        program.winter.day.beginM = request->arg("winter_day_beginM").toInt();
-        program.winter.night.beginH = request->arg("winter_night_beginH").toInt();
-        program.winter.night.beginM = request->arg("winter_night_beginM").toInt();
+        
 
         // SUMMER DAY SETTINGS
         program.summer.day.temp1.min = request->arg("summer_day_temp1min").toInt();
@@ -428,7 +431,13 @@ void createWebServer()
     });
 
      server.on("/restartesp", [] (AsyncWebServerRequest *request) {
-      ESP.restart();
+      content += "<!DOCTYPE HTML>\r\n<html>";
+      content += "<meta http-equiv=\"refresh\" content=\"0; URL=/\" />";
+      content += "<h1>Restarting ESP...</h1>";
+      content += "<p>Please wait.</p>";
+      content += "</html>";
       request->send(200, "text/html", content);
+      delay(1000);
+      ESP.restart();
     });
 }

@@ -6,7 +6,25 @@ String summer_scenario_html(void) {
     content += "<html>";
     content += "<head>";
     content += "<style>";
-    content += "div#bodyheader { display: grid; grid-template-columns: 1fr 4fr; background : lavender; }";
+    content += ":root{--bg:#1a1a1e;--card:#242428;--text:#f5f5f5;--muted:#a0a0a8;--accent-orange:#ff8c00;--accent-yellow:#ffc107;--accent-red:#ff3333}";
+    content += "body {background : var(--bg); max-width: 900px; margin: auto; padding-left: 5px; padding-bottom: 25px; color: var(--text);}";
+    content += "input {font-size: 1.3rem; margin : 10px; padding: 10px; background:#242428; color:#f5f5f5; border:1px solid #ff8c00;}";
+    
+    content += "div#bodyheader {";
+    content += "display: flex;";
+    content += "align-items: center;";
+    content += "justify-content: space-between;";
+    content += "gap: 12px;";
+    content += "border-bottom: 2px solid var(--accent-orange);";
+    content += "padding: 12px 6px 14px 6px;";
+    content += "margin-bottom: 18px;";
+    content += "}";
+    
+    content += "h2, h1 {";
+    content += "font-size: 1.6rem;";
+    content += "color: var(--accent-orange);";
+    content += "margin: 0;";
+    content += "}";
     content += "input {font-size: 1.3rem; margin : 10px; padding: 10px;}";
     content += "input.inputText { width : 150px; }";
     content += "input.inputInt { width : 75px; }";
@@ -17,7 +35,7 @@ String summer_scenario_html(void) {
     content += "</head>";
 
     content += "<div id=\"bodyheader\">";
-    content += "<input class=\"returnButton\" type='button' onclick=\"location.href='/'\" value='&#8617;' />";
+    content += "<input class=\"returnButton\" type='button' onclick=\"location.href='/program'\" value='&#8617;' />";
     content += "<h1> Settings</h1>";
     content += "</div>";
 

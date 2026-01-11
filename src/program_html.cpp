@@ -61,12 +61,14 @@ String program_html(void) {
     content += "gap: 8px;";
     content += "}";
 
-    content += "input[type=\"number\"] {";
+    content += "input[type=\"number\"], inputInt {";
     content += "background: transparent;";
-    content += "border: 1px solid var(--accent-orange);";
-    content += "border-radius: var(--border-radius);";
+    content += "border-style: unset;";
+    content += "border-bottom: 1px solid var(--accent-orange);";
+    //content += "border-radius: var(--border-radius);";
     content += "color: var(--accent-orange);";
-    content += "width: 100px;";
+    content += "background: var(--card);";
+    content += "width: 75px;";
     content += "padding: 8px;";
     content += "text-align: center;";
     content += "font-size: 1rem;";

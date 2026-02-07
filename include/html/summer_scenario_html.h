@@ -34,10 +34,12 @@ String summer_scenario_html(void) {
     content += "</script>";
     content += "</head>";
 
+    content += "<body>";
     content += "<div id=\"bodyheader\">";
     content += "<input class=\"returnButton\" type='button' onclick=\"location.href='/program'\" value='&#8617;' />";
-    content += "<h1> Settings</h1>";
+    content += "<h1> Summer Scenario</h1>";
     content += "</div>";
+    content += "<form method='get' action='setprogram' style='width: 100%; padding:5px;'>";
 
     content += "<li><fieldset><legend><a href='#?summer_scenario'>Summer day température : </a></legend>";
 
@@ -67,5 +69,9 @@ String summer_scenario_html(void) {
     content += "<p><label for='summer_night_humidity1max'>Humidité maximale : </label><input type='number' id='summer_night_humidity1max' name='summer_night_humidity1max' value='" +String(program.summer.night.humidity1.max)+ "' class='inputText'><i class='small info'>(FAN ON ) </i></p>";
     content += "</fieldset></li>";  
 
+    content += "<input class='btn-primary' type='submit' name='save' value='Save' />";
+    content += "</form>";
+    content += "</body>";
+    content += "</html>";
     return content;
 }

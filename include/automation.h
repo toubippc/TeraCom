@@ -12,56 +12,32 @@ struct { int beginTime; int endTime; int function; } shedules;
 struct Temp { int min; int max; };
 
 extern Temp temp1, temp2, temp3, humidity1;
+struct Season {
+        int beginDD;
+        int beginMM;
+        int endDD;
+        int endMM;
+        struct Day {
+            int beginH;
+            int beginM;
+            Temp temp1;
+            Temp temp2;
+            Temp temp3;
+            Temp humidity1;
+        } day;
+        struct Night {
+            int beginH;
+            int beginM;
+            Temp temp1;
+            Temp temp2;
+            Temp temp3;
+            Temp humidity1;
+        } night;
+    };
 
 struct Program { 
-    struct Summer {
-        int beginDD;
-        int beginMM;
-        int endDD;
-        int endMM;
-        struct Day {
-            int beginH;
-            int beginM;
-            int endH;
-            int endM;
-            Temp temp1;
-            Temp temp2;
-            Temp temp3;
-            Temp humidity1;
-        } day;
-        struct Night {
-            int beginH;
-            int beginM;
-            Temp temp1;
-            Temp temp2;
-            Temp temp3;
-            Temp humidity1;
-        } night;
-    } summer;
-    struct Winter {
-        int beginDD;
-        int beginMM;
-        int endDD;
-        int endMM;
-        struct Day {
-            int beginH;
-            int beginM;
-            int endH;
-            int endM;
-            Temp temp1;
-            Temp temp2;
-            Temp temp3;
-            Temp humidity1;
-        } day;
-        struct Night {
-            int beginH;
-            int beginM;
-            Temp temp1;
-            Temp temp2;
-            Temp temp3;
-            Temp humidity1;
-        } night;
-    } winter;
+    Season summer ;
+    Season winter ;
 };
 
 extern Program program;

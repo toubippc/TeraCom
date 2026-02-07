@@ -236,7 +236,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     <div id="bodyheader">
       <h2>🦎 LéoMatic Module</h2>
       <div style="display:flex;align-items:center;gap:12px;">
-      <div class="time" id="time">Time : <span id="timeValue">%TIME%</span></div>
+      <div class="time" id="time"><span id="labeltime" > %MODE% </span><span id="timeValue">%TIME%</span></div>
       <div id="settingsMenu">
         <form action="menu" method="POST"><input class="buttonMenu" type="button" onclick="displayMenu()" value="&#9776;"></form>
         <div id="menuItems">
@@ -286,7 +286,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     </div>
 
     <div class="card" id="card-2">
-      <div class="card-title">Temperature Zone %SONDE2%</div>
+      <div class="card-title">Temperature %SONDE2%</div>
       <div class="value" id="v2"> %ANALOG2% &degC</div>
       <div id="gauge1" class="gauge-container">
           <div class="current-value">0&degC</div>
@@ -430,7 +430,7 @@ const gauge2 = new LinearGauge("gauge2"); // Température ambiante
 const gauge3 = new LinearGauge("gauge3"); // Humidité  
     
 function ecu(element) {
-  var ecuState = document.getElementById("ecu").value;
+  var ecuState = document.getElementById("ecu_button").value;
   if(ecuState == "ON") {
     ecuState = "OFF";
   }
@@ -491,7 +491,13 @@ function updateSensor() {
             if(document.getElementById('v1')) document.getElementById('v1').textContent = parseFloat(data.temperature_0).toFixed(1) + '\u00B0C';
             document.getElementById("temp1").innerHTML = data.temperature_1;
             gauge1.setValue(data.temperature_1); // Définir une valeur pour la gauge1
-            if(document.getElementById('v2')) document.getElementById('v2').textContent = parseFloat(data.temperature_1).toFixed(1) + '\u00B0C';
+            if(data.temperature_1 === null || data.temperature_1 === 0) {
+              if(document.getElementById('v2')) document.getElementById('v2').textContent = "Default Sensor";
+            }
+            else {
+              if(document.getElementById('v2')) document.getElementById('v2').textContent = parseFloat(data.temperature_1).toFixed(1) + '\u00B0C';
+            }
+            
             document.getElementById("dht1").innerHTML = data.dht_1;
             gauge2.setValue(data.dht_1); // Définir une valeur pour la gauge2
             if(document.getElementById('v3')) document.getElementById('v3').textContent = parseFloat(data.dht_1).toFixed(1) + '\u00B0C';
@@ -499,6 +505,12 @@ function updateSensor() {
             gauge3.setValue(data.humidity_1); // Définir une valeur pour la gauge3
             if(document.getElementById('v4')) document.getElementById('v4').textContent = parseFloat(data.humidity_1).toFixed(1) + '%';
 
+            // Update relay buttons
+            document.getElementById("out0").value = data.relay0 == 1 ? "ON" : "OFF";
+            document.getElementById("out1").value = data.relay1 == 1 ? "ON" : "OFF";
+            document.getElementById("out2").value = data.relay2 == 1  ? "ON" : "OFF";
+            document.getElementById("out3").value = data.relay3 == 1  ? "ON" : "OFF";
+            
           } else { // a problem occurred
 
             document.getElementById("temp1").innerText = "?";

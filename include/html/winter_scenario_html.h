@@ -33,11 +33,15 @@
     content += "<script>";
     content += "</script>";
     content += "</head>";
-
+    
+    content += "<body>";
     content += "<div id=\"bodyheader\">";
     content += "<input class=\"returnButton\" type='button' onclick=\"location.href='/program'\" value='&#8617;' />";
     content += "<h1> Winter Scenario</h1>";
     content += "</div>";
+    
+    content += "<form method='get' action='setprogram' style='width: 100%; padding:5px;'>";
+
     content += "<li><fieldset><legend>Winter day température :</legend>";
     
     content += "<p><label for='winter_day_temp1min'>Température minimale "+ NameSensors1 +": </label><input type='number' id='winter_day_temp1min' name='winter_day_temp1min' value='" +String(program.winter.day.temp1.min)+ "' class='inputText'></p>";
@@ -67,7 +71,11 @@
     content += "<p><label for='winter_night_humidity1max'>Humidité maximale : </label><input type='number' id='winter_night_humidity1max' name='winter_night_humidity1max' value='" +String(program.winter.night.humidity1.max)+ "' class='inputText'></p>";
     content += "</fieldset></li>";
     content += "</body></html>";
-
+    
+    content += "<input class='btn-primary' type='submit' name='save' value='Save' />";
+    content += "</form>";
+    content += "</body>";
+    content += "</html>";
     return content;
 
  }

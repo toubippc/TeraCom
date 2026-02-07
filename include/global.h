@@ -44,7 +44,6 @@ void setTimezone(String timezone);
 // PINNING
 extern const int output;
 extern const int pinTriggerAP;
-// const int porteio = 16;
 extern const int pinRelay0;
 extern const int pinRelay1;
 extern const int pinRelay2;
@@ -80,7 +79,7 @@ extern String hostname;
 extern String WIFI_AP_Name;
 extern char *http_username;
 extern char *http_password;
-
+extern String Mode;
 extern String NameRelay0;
 extern String NameRelay1;
 extern String NameRelay2;

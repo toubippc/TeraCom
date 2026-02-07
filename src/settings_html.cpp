@@ -28,6 +28,61 @@ String settings_html(void) {
             margin-top: 15px;\
             margin-bottom: 5px;\
         }\
+        p.input-row {\
+            display: flex;\
+            justify-content: space-between;\
+            align-items: center;\
+            gap: 12px;\
+        }\
+        p.sendsettings {\
+            display: flex;\
+            justify-content: center;\
+        }\
+        p.sendsettings input[type=\"submit\"] {\
+            width: 30%;\
+            background: var(--accent-orange);\
+            border: none;\
+            padding: 15px;\
+            border-radius: var(--border-radius);\
+            color: black;\
+            font-weight: bold;\
+            font-size: 1rem;\
+            cursor: pointer;\
+        }\
+        .ecu_content {\
+        display: flex;\
+        flex-direction: column;\
+        align-items: center;\
+        justify-content: center;\
+        margin-top: 20px;\
+        width: 100%%;\
+        } \
+        .ecu_content p {\
+        width: 100%%;\
+        text-align: center;\
+        }\
+        .ecu_button {\
+        appearance: none;\
+        border: 2px solid #ff0000;\
+        background: var(--accent-red);\
+        color: var(--text);\
+        padding: 10px 20px;\
+        border-radius: 8px;\
+        font-weight: 700;\
+        cursor: pointer;\
+        transition: all 0.18s;\
+        font-size: 1.2rem;\
+        width: 95%%;\
+        }\
+        .ecu_button:hover {\
+        background: var(--accent-red) !important;\
+        color: var(--text) !important;\
+        }\
+        .ecu_button.active {\
+        background: #ff3333;\
+        border-color: #ff3333;\
+        color: #d9d9d9;\
+        }\
     </style>\
     ";
     String content = "<!DOCTYPE HTML>\r\n";
@@ -56,14 +111,13 @@ String settings_html(void) {
 
     content += "<h1> ESP Settings</h1>";
     content += "<form method='get' action='setsettings' style='width: 100%; padding:5px;'>";
-    content += "<ul><label for='hostname'><h3>Hostname :</h3></label>";
-    content += "<input type='text' id='hostname' name='hostname' value='" + hostname + "' class='inputText'></ul>";
+    content += "<p class='input-row'><label for='hostname'>Hostname :</label>";
+    content += "<input type='text' id='hostname' name='hostname' value='" + hostname + "' class='inputText'></p>";
 
-    content += "<ul><label for='http_username'><h3>HTTP Username :</h3></label>";
-    content += "<input type='text' id='http_username' name='http_username' value='" + String(http_username) + "' class='inputText'></ul>";
-
-    content += "<ul><label for='http_password'><h3>HTTP Password :</h3></label>";
-    content += "<input type='text' id='http_password' name='http_password' value='" + String(http_password) + "' class='inputText'></ul>";
+    content += "<p class='input-row'><label for='http_username'>HTTP Username :</label>";
+    content += "<input type='text' id='http_username' name='http_username' value='" + String(http_username) + "' class='inputText'></p>";
+    content += "<p class='input-row'><label for='http_password'>HTTP Password :</label>";
+    content += "<input type='text' id='http_password' name='http_password' value='" + String(http_password) + "' class='inputText'></p>";
 
     content += "<p class='sendsettings'>";
     content += "<input type='submit' value='Save Settings'>";
@@ -74,5 +128,59 @@ String settings_html(void) {
     content += "</form>";
     content += "</p>";
 
+    content += "<div id=\"ecu_content\" class=\"ecu_content\">";
+    content += "<!-- Bouton arret urgence -->";
+    content += "<p>ECU : <input type=\"button\" onclick=\"ecu(this)\" id=\"ecu_button\" class=\"ecu_button\" value='" + String(ECU_STATE) + "'></p>";
+    content += "</div>";
+
+    content += "<script type=\"text/javascript\">";
+    content += "function ecu(button) {";
+    content += "  var xhr = new XMLHttpRequest();";
+    content += "  var ecuState = document.getElementById(\"ecu_button\").value;";
+    content += "  if(ecuState == \"ON\") {";
+    content += "    ecuState = \"OFF\";";
+    content += "  }";
+    content += "  else {";
+    content += "    ecuState = \"ON\";";
+    content += "  }";
+    content += "  xhr.open('GET', '/ecu?ecu=ecuState', true);";
+    content += "  xhr.onreadystatechange = function() {";
+    content += "    if (xhr.readyState == 4 && xhr.status == 200) {";
+    content += "      var newState = xhr.responseText;";
+    content += "      button.value = !ecuState;";
+    content += "      if (newState == \"ON\") {";
+    content += "        button.classList.add('active');";
+    content += "      } else {";
+    content += "        button.classList.remove('active');";
+    content += "      }";
+    content += "    }";
+    content += "  };";
+    content += "  xhr.send();";
+    content += "}";
+    /*
+    function ecu(element) {
+  var ecuState = document.getElementById("ecu").value;
+  if(ecuState == "ON") {
+    ecuState = "OFF";
+  }
+  else {
+    ecuState = "ON";
+  }
+  console.log(ecuState);
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == XMLHttpRequest.DONE) {
+        // alert(xhr.responseText);
+        document.getElementById("ecu").value = ecuState;
+    }
+  }
+  xhr.open("GET", "/ecu?ecu="+ecuState, true);
+  xhr.send();
+}
+    */
+
+    content += "</script>";
+    
+    content += "</body></html>";
     return content;
 }

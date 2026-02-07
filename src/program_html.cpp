@@ -27,9 +27,7 @@ String program_html(void) {
 
     content += "li {list-style-type: none; margin-bottom: 5px;}";
     
-    content += "input {font-size: 1.3rem; margin : 10px; padding: 10px;}";
-    content += "input.inputText { width : 150px; }";
-    content += "input.inputInt { width : 75px; }";
+ 
     content += ".returnButton {";
     content += "background: var(--accent-orange) !important;";
     content += "color: var(--text) !important;";
@@ -38,11 +36,16 @@ String program_html(void) {
     content += "font-size: 1.3rem;";
     content += "cursor: pointer;";
     content += "border-radius: 5px;";
+    content += "min-width: 100px;";
+    content += "text-align: center;";
+    content += "width: 50%%;";
     content += "}";
 
 
-
     // Inputs
+    content += "input.inputText { width : 150px; }";
+    content += "input.inputInt { width : 75px; }";
+
     content += ".input-group {";
     content += "margin-bottom: 20px;";
     content += "display: flex;";
@@ -149,14 +152,14 @@ String program_html(void) {
         content += "<div class='input-group'>";
             content += "<p><label for='summerdaybegin'><span class='icon'>&#9728;</span> Day Time <i class='small info'>(Light ON)</i> : </label>";
             content += "<div class='inputs-row'>";
-                content += "<input type='number' id='summerdaybeginH' name='summer_day_beginH' value=" + String(program.summer.day.beginH) + " class='inputInt'> : <input type='number' id='daybeginM' name='daybeginM' value=" + String(program.summer.day.beginM) + " class='inputInt'>  </p>";
+                content += "<input type='number' id='summerdaybeginH' name='summer_day_beginH' value=" + String(program.summer.day.beginH) + " class='inputInt'> : <input type='number' id='daybeginM' name='summer_day_beginM' value=" + String(program.summer.day.beginM) + " class='inputInt'>  </p>";
             content += "</div>";
         content += "</div>";
 
         content += "<div class='input-group'>";
             content += "<p><label for='summernightbegin'><span class='icon'>&#127769;</span> Night Time <i class='small info'>(Light OFF)</i> : </label>";
             content += "<div class='inputs-row'>";
-                content += "<input type='number' id='summernightbeginH' name='summer_night_beginH' value=" + String(program.summer.day.endH) + " class='inputInt'> : <input type='number' id='nightbeginM' name='nightbeginM' value=" + String(program.summer.day.endM) + " class='inputInt'>  </p>";
+                content += "<input type='number' id='summernightbeginH' name='summer_night_beginH' value=" + String(program.summer.night.beginH) + " class='inputInt'> : <input type='number' id='nightbeginM' name='summer_night_beginM' value=" + String(program.summer.night.beginM) + " class='inputInt'>  </p>";
             content += "</div>";
         content += "</div>";
 
@@ -179,7 +182,7 @@ String program_html(void) {
             content += "<div class='input-group'>";
                 content += "<p><label for='winterdaybegin'><span class='icon'>&#9728;</span> Day Time (HH : MM) : </label>";
                 content += "<div class='inputs-row'>";
-                    content += "<input type='number' id='winterdaybeginH' name='winter_day_beginH' value='" +String(program.winter.day.beginH)+ "' class='inputInt'> : <input type='number' id='daybeginM' name='daybeginM' value='" +String(program.winter.day.beginM)+ "' class='inputInt'></p>";
+                    content += "<input type='number' id='winterdaybeginH' name='winter_day_beginH' value='" +String(program.winter.day.beginH)+ "' class='inputInt'> : <input type='number' id='winterdaybeginM' name='winter_day_beginM' value='" +String(program.winter.day.beginM)+ "' class='inputInt'></p>";
                 content += "</div>";
             content += "</div>";
         
@@ -187,7 +190,7 @@ String program_html(void) {
             content += "<div class='input-group'>";
                 content += "<p><label for='winternightbegin'><span class='icon'>&#127769;</span> Night Time (HH : MM) : </label>";
                 content += "<div class='inputs-row'>";
-                    content += "<input type='number' id='winternightbeginH' name='winter_night_beginH' value='" +String(program.winter.night.beginH)+ "' class='inputInt'> : <input type='number' id='nightbeginM' name='nightbeginM' value='" +String(program.winter.night.beginM)+ "' class='inputInt'></p>";
+                    content += "<input type='number' id='winternightbeginH' name='winter_night_beginH' value='" +String(program.winter.night.beginH)+ "' class='inputInt'> : <input type='number' id='winternightbeginM' name='winter_night_beginM' value='" +String(program.winter.night.beginM)+ "' class='inputInt'></p>";
                 content += "</div>";
             content += "</div>";
 

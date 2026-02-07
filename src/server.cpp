@@ -73,6 +73,7 @@ String processor(const String& var){
   if(var == "SONDE2") {return NameSensors2; }
   if(var == "SONDE3") {return NameSensors3; }
   if(var == "SONDE4") {return NameSensors4; }
+  if(var == "MODE") {return Mode; }
 
   if(var == "STATEOUT0") {
     return stateout0  = ( digitalRead(pinRelay0) == OFF ) ? "OFF" : "ON";
@@ -165,7 +166,15 @@ void createWebServer()
       String temperature = String(event.temperature);
       dht.humidity().getEvent(&event);
       String humitidty = String(event.relative_humidity); */
-      content = "{\"temperature_0\" : "+String(analog1Value)+",\"temperature_1\" : "+String(analog2Value)+",\"dht_1\" : "+String(analog3Value)+", \"humidity_1\" : "+String(analog4Value)+"}";
+      content = "{\"temperature_0\" : "+String(analog1Value);
+      content += ",\"temperature_1\" : "+String(analog2Value);
+      content += +",\"dht_1\" : "+String(analog3Value);
+      content += +", \"humidity_1\" : "+String(analog4Value);
+      content += +", \"relay0\" : "+ String((digitalRead(pinRelay0) == OFF && RELAY_INV==1 ? "0" : "1"));
+      content += +", \"relay1\" : "+ String((digitalRead(pinRelay1) == OFF && RELAY_INV==1 ? "0" : "1"));
+      content += +", \"relay2\" : "+ String((digitalRead(pinRelay2) == OFF && RELAY_INV==1 ? "0" : "1"));
+      content += +", \"relay3\" : "+ String((digitalRead(pinRelay3) == OFF && RELAY_INV==1 ? "0" : "1"));
+      content += +"}";
       statusCode = 200;
       request->send(statusCode, "application/json", content);
     });
@@ -218,7 +227,7 @@ void createWebServer()
       inputMessage = request->getParam(HTTP_GET_OUT2)->value();
       stateout2 = inputMessage;
       // TODO : ON/OFF function here
-      
+        
       digitalWrite(pinRelay2, !digitalRead(pinRelay2) );
     }
     else if(request->hasParam(HTTP_GET_OUT3)) {
@@ -232,7 +241,7 @@ void createWebServer()
       inputMessage = "No message sent";
     }
     Serial.println(inputMessage);
-    request->send(200, "text/plain", "OK");
+    request->send(200, "text/plain", "inputMessage: " + inputMessage);
   });
 
   // Get Network HTML Settings
@@ -362,12 +371,24 @@ void createWebServer()
           program.summer.beginMM = ( request->hasArg("summerbeginMM") ) ? request->arg("summerbeginMM").toInt() : program.summer.beginMM;
           program.winter.beginDD = ( request->hasArg("winterbeginDD") ) ? request->arg("winterbeginDD").toInt() : program.winter.beginDD;
           program.winter.beginMM = ( request->hasArg("winterbeginMM") ) ? request->arg("winterbeginMM").toInt() : program.winter.beginMM;
+        
         // DAY/NIGHT BEGIN TIMES
+        
+        //SUMMER DAY TIME SETTING
         program.summer.day.beginH = ( request->hasArg("summer_day_beginH") ) ? request->arg("summer_day_beginH").toInt() : program.summer.day.beginH;
         program.summer.day.beginM = ( request->hasArg("summer_day_beginM") ) ? request->arg("summer_day_beginM").toInt() : program.summer.day.beginM;
+       
+        // SUMMER NIGHT TIME SETTING
         program.summer.night.beginH = ( request->hasArg("summer_night_beginH") ) ? request->arg("summer_night_beginH").toInt() : program.summer.night.beginH;
         program.summer.night.beginM = ( request->hasArg("summer_night_beginM") ) ? request->arg("summer_night_beginM").toInt() : program.summer.night.beginM;
         
+        // WINTER DAY TIME SETTING
+        program.winter.day.beginH = ( request->hasArg("winter_day_beginH") ) ? request->arg("winter_day_beginH").toInt() : program.winter.day.beginH;
+        program.winter.day.beginM = ( request->hasArg("winter_day_beginM") ) ? request->arg("winter_day_beginM").toInt() : program.winter.day.beginM;
+        // WINTER NIGHT TIME SETTING
+        program.winter.night.beginH = ( request->hasArg("winter_night_beginH") ) ? request->arg("winter_night_beginH").toInt() : program.winter.night.beginH;
+        program.winter.night.beginM = ( request->hasArg("winter_night_beginM") ) ? request->arg("winter_night_beginM").toInt() : program.winter.night.beginM;
+
         // SUMMER DAY SETTINGS
         program.summer.day.temp1.min = ( request->hasArg("summer_day_temp1min") ) ? request->arg("summer_day_temp1min").toInt() : program.summer.day.temp1.min;
         program.summer.day.temp1.max = ( request->hasArg("summer_day_temp1max") ) ? request->arg("summer_day_temp1max").toInt() : program.summer.day.temp1.max;
@@ -406,7 +427,7 @@ void createWebServer()
         program.winter.night.humidity1.min = ( request->hasArg("winter_night_humidity1min") ) ? request->arg("winter_night_humidity1min").toInt() : program.winter.night.humidity1.min;
         program.winter.night.humidity1.max = ( request->hasArg("winter_night_humidity1max") ) ? request->arg("winter_night_humidity1max").toInt() : program.winter.night.humidity1.max;
         
-        EEPROM.put(1024, program);
+        EEPROM.put(264, program);
         EEPROM.commit();
         
         Serial.println("Settings to save:");
@@ -440,4 +461,6 @@ void createWebServer()
       delay(1000);
       ESP.restart();
     });
+    
+    
 }

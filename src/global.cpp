@@ -15,7 +15,7 @@ DHT_Unified dht(DHTPIN, DHTTYPE);
 // PINNING
 const int output = 2;
 const int pinTriggerAP = 15;
-const int pinRelay0 = 16; // Ventilation / Climatisation : PIN 16
+const int pinRelay0 = 16; // Ventilation - Climatisation : PIN 16
 const int pinRelay1 = 18; // Spot : PIN 18
 const int pinRelay2 = 5; // UV : PIN 5
 const int pinRelay3 = 17; // Chauffage : PIN 17
@@ -37,7 +37,7 @@ String hostname = "axsiot";
 String WIFI_AP_Name = "hackme";
 char *http_username = "admin";
 char *http_password = "*hackme*";
-
+String Mode = "";
 String NameRelay0 = "Chauffage";
 String NameRelay1 = "Spot / Lampe chauffante";
 String NameRelay2 = "UV / Lampe jour";
@@ -65,10 +65,11 @@ int termo1[3][2] = {
 };
 
 // IN
-float analog1Value = 0;
-float analog2Value = 0;
-float analog3Value = 0;
-float analog4Value = 0;
+// Zone chaude
+float analog1Value = 0; // Zone chaude
+float analog2Value = 0; // Zone froide
+float analog3Value = 0; // Zone tempérée
+float analog4Value = 0; // Humidité
 
 const char* PARAM_INPUT = "value";
 const int ledChannel = 0;
@@ -76,6 +77,7 @@ const char* HTTP_GET_PARAM = "temp";
 const char* HTTP_GET_OUT1 = "out1";
 const char* HTTP_GET_OUT2 = "out2";
 const char* HTTP_GET_OUT3 = "out3";
+const char* HTTP_GET_OUT0 = "out0";
 const char* HTTP_GET_SaveTweak = "tweakSave";
 
 // GET PARAM FOR WS_ROT

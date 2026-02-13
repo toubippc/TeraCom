@@ -12,11 +12,48 @@ String network_html(void) {
     String StringMacAddr = "MAC address : " + String(macAddr[0]) + ":" + String(macAddr[1]) + ":" + String(macAddr[2]) + ":" + String(macAddr[3]) + ":" + String(macAddr[4]) + ":" + String(macAddr[5]);
     String content = "<!DOCTYPE HTML>\r\n";
     content += "<style>";
+    
+    content += ":root{--bg:#1a1a1e;--card:#242428;--text:#f5f5f5;--muted:#a0a0a8;--accent-orange:#ff8c00;--accent-yellow:#ffc107;--accent-red:#ff3333; --border-radius:8px;}";
+    content += "body {background : var(--bg); max-width: 900px; margin: auto; padding-left: 5px; padding-right: 5px; padding-bottom: 25px; color: var(--text);}";
+    content += "input {font-size: 1.3rem; margin : 10px; padding: 10px; background:#242428; color:#f5f5f5; border:1px solid #ff8c00;}";
+    
+    content += "div#bodyheader {";
+    content += "display: flex;";
+    content += "align-items: center;";
+    content += "justify-content: space-between;";
+    content += "gap: 12px;";
+    content += "border-bottom: 2px solid var(--accent-orange);";
+    content += "padding: 12px 6px 14px 6px;";
+    content += "margin-bottom: 18px;";
+    content += "}";
+    
+    content += "h2, h1 {";
+    content += "font-size: 1.6rem;";
+    content += "color: var(--accent-orange);";
+    content += "margin: 0;";
+    content += "}";
+
+    content += "li {list-style-type: none; margin-bottom: 5px;}";
+    
+ 
+    content += ".returnButton {";
+    content += "background: var(--accent-orange) !important;";
+    content += "color: var(--text) !important;";
+    content += "border: none;";
+    content += "padding: 10px 15px;";
+    content += "font-size: 1.3rem;";
+    content += "cursor: pointer;";
+    content += "border-radius: 5px;";
+    content += "min-width: 100px;";
+    content += "text-align: center;";
+    content += "width: 50%%;";
+    content += "}";
+    
     content += "body {text-align : center;}";
-    content += "div#bodyheader { display: grid; grid-template-columns: 1fr 4fr; background : lavender; }";
     content +="ol {text-align: left;}";
-    content += "input {font-size: 1.3rem; margin : 10px; padding: 10px;}";
     content += "</style>";
+    
+    
     content += "<html>";
     content += "<div id=\"bodyheader\">";
     content += "<input class=\"returnButton\" type='button' onclick=\"location.href='/'\" value='&#8617;' />";

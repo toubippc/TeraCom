@@ -30,13 +30,14 @@ const char index_html[] PROGMEM = R"rawliteral(
         color: var(--accent-orange);
         margin: 0;
       }
-    .time {color: var(--muted); font-size: 0.95rem}
+    .timeValue {color: var(--muted); font-size: 0.95rem}
     div#settingsMenu {
       text-align : right;
     }
     div#menuItems {
         display: none;
-        position : relative;
+        position : absolute;
+        right: 10px;
         min-width : 75px;
         text-align : right;
         border : 1px solid #ff8c00;

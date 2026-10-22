@@ -19,7 +19,7 @@ void automation(void) {
     
     EEPROM.get(264, program);
     
-    if(program.summer.day.temp1.min == 0 && program.summer.day.temp1.max == 0) {
+    if(program.summer.day.temp1.min <= 0 && program.summer.day.temp1.max <= 0) {
         // Si pas de programme enregistré, on initialise des valeurs par défaut
         programDefaultValues();
     }
@@ -54,49 +54,51 @@ void automation(void) {
     
     if( (timeinfo.tm_mon + 1) > program.winter.beginMM || (timeinfo.tm_mon + 1) < program.summer.beginMM ) {
         season_mode = program.winter;
-        Mode = "&#10054;";
+        ModeIcon = "&#10054;";
     } else if( (timeinfo.tm_mon + 1) == program.winter.beginMM  && timeinfo.tm_mday >= program.winter.beginDD ) {
         season_mode = program.winter;
-        Mode = "&#10054;";
+        ModeIcon = "&#10054;";
     } else if( (timeinfo.tm_mon + 1) == program.summer.beginMM  && timeinfo.tm_mday < program.summer.beginDD ) {
         season_mode = program.winter;
-        Mode = "&#10054;";
+        ModeIcon = "&#10054;";
     }
     else {
         season_mode = program.summer;
-        Mode = "&#127796;";
+        ModeIcon = "&#127796;";
     }     
     
-    // Horraire JOUR
-    if( season_mode.day.beginH <= timeinfo.tm_hour && timeinfo.tm_hour  < season_mode.night.beginH) {
-        Mode += " &#9788;";
-        // Controle Zone froide entre 24 et 28
-        // Sécurité zone froide
-        if(analog2Value >= season_mode.day.temp2.max) { 
-            ChauffageState = OFF; // Chauffage OFF
-            SpotState = OFF; // Spot OFF
-            UVState = OFF; // UV OFF
-            VentilationState = ON; // Ventilation ON
-                        
-            /*
-            digitalWrite(pinRelay3, OFF); // Chauffage OFF
-            digitalWrite(pinRelay2, OFF); // UV OFF
-            digitalWrite(pinRelay1, OFF); // Spot OFF
-            digitalWrite(pinRelay0, ON); // Ventilation ON
-            */
-        }
-        else {
-            
-            // Si la zone chaude est trop froide, on chauffe. Sinon on éteint le chauffage.
-            if(analog1Value <= season_mode.day.temp1.min ) { ChauffageState = ON; } // Chauffage ON
-            if(analog1Value >= season_mode.day.temp1.max ) { ChauffageState = OFF; } // Chauffage OFF
+    
+    // Controle Zone froide entre 24 et 28 MAX
+    // Sécurité zone froide
+    if(analog2Value >= season_mode.day.temp2.max) { 
+        ChauffageState = OFF; // Chauffage OFF
+        SpotState = OFF; // Spot OFF
+        UVState = OFF; // UV OFF
+        VentilationState = ON; // Ventilation ON
+        
+        return;
+    }
+    
+    if(manualMode == 0)
+    {
+        if(brumation == 0)
+        {
+            // Horraire JOUR
+            if( season_mode.day.beginH <= timeinfo.tm_hour && timeinfo.tm_hour  < season_mode.night.beginH) 
+            {
+                ModeIcon += " &#127774;";
+                
+                VentilationState = OFF;
+                // Si la zone chaude est trop froide, on chauffe. Sinon on éteint le chauffage.
+                if(analog1Value <= season_mode.day.temp1.min ) { ChauffageState = ON; } // Chauffage ON
+                if(analog1Value >= season_mode.day.temp1.max ) { ChauffageState = OFF; } // Chauffage OFF
 
-            // Controle Zone tempérée ( Ambiante )
+                // Controle Zone tempérée ( Ambiante )
                 if (analog3Value >= season_mode.day.temp3.max ) { UVState = OFF; } // UV OFF
                 if (analog3Value <= season_mode.day.temp3.min ) { UVState = ON; } // UV ON
                 // Ventilation ON si plus grand que temp max
-                 digitalWrite(pinRelay0, (analog3Value >= season_mode.day.temp3.max ) ? ON : OFF); 
-            
+                // digitalWrite(pinRelay0, (analog3Value >= season_mode.day.temp3.max ) ? ON : OFF); 
+                VentilationState = (analog3Value >= season_mode.day.temp3.max ) ? ON : OFF ; // Ventilation ON|OFF
                 // Controle des spots
                 // Heures + Controle température zone tempérée
                 if (10 >= timeinfo.tm_hour && timeinfo.tm_hour <= 16) {
@@ -104,27 +106,27 @@ void automation(void) {
                     if (analog3Value >= season_mode.day.temp3.max ) { SpotState = OFF; } // Spot OFF
                 }
                 else {
-                    // Ne pas descendre en dessous de 28, température ambiante, en journée si le chauffage ne suffit pas
+                    // Ne pas descendre en dessous de 'temp1.min' (+-28), température ambiante, en journée si le chauffage ne suffit pas
                     if (analog1Value <= season_mode.day.temp1.min ) { SpotState = ON; } // Spot ON
-                    if (analog1Value >= season_mode.day.temp1.min ) { SpotState = OFF; } // Spot OFF
-                }
+                    if (analog1Value >= season_mode.day.temp1.max ) { SpotState = OFF; } // Spot OFF
+                }                
+            }
+            else { // Horraire NUIT ET SECURITER
+                ModeIcon += "&#127769;";
+                SpotState = OFF; // Spot OFF
+                UVState = OFF; // UV OFF    
+                VentilationState = OFF; // Ventilation OFF
+                
+                /*
+                digitalWrite(pinRelay1, OFF); // Spot OFF
+                digitalWrite(pinRelay2, OFF); // UV OFF
+                digitalWrite(pinRelay0, OFF); // Ventilation OFF
+                */
+                // Chauffage Nuit
+                if (analog1Value <= season_mode.night.temp1.min ) { ChauffageState = ON; } // Chauffage ON
+                if (analog1Value >= season_mode.night.temp1.max ) { ChauffageState = OFF; } // Chauffage OFF
+            }
         }
-
-    }
-    else { // Horraire NUIT ET SECURITER
-        Mode += "&#127769;";
-        SpotState = OFF; // Spot OFF
-        UVState = OFF; // UV OFF    
-        VentilationState = OFF; // Ventilation OFF
-        
-        /*
-        digitalWrite(pinRelay1, OFF); // Spot OFF
-        digitalWrite(pinRelay2, OFF); // UV OFF
-        digitalWrite(pinRelay0, OFF); // Ventilation OFF
-        */
-        // Chauffage Nuit
-        if (analog1Value <= season_mode.night.temp1.min ) { ChauffageState = ON; } // Chauffage ON
-        if (analog1Value >= season_mode.night.temp1.max ) { ChauffageState = OFF; } // Chauffage OFF
     } 
     
     // On écrit les états aux relais

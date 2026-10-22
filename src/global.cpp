@@ -37,11 +37,13 @@ String hostname = "axsiot";
 String WIFI_AP_Name = "hackme";
 char *http_username = "admin";
 char *http_password = "*hackme*";
-String Mode = "";
-String NameRelay0 = "Chauffage";
+String ModeIcon = "";
+int manualMode = 0;
+bool brumation = 0;
+String NameRelay0 = "Vent / Clim";
 String NameRelay1 = "Spot / Lampe chauffante";
 String NameRelay2 = "UV / Lampe jour";
-String NameRelay3 = "Vent / Clim";
+String NameRelay3 = "Chauffage";
 
 String NameSensors1 = "Zone chaude";
 String NameSensors2 = "Zone froide";

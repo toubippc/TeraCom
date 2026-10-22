@@ -79,7 +79,11 @@ extern String hostname;
 extern String WIFI_AP_Name;
 extern char *http_username;
 extern char *http_password;
-extern String Mode;
+// Automation mode
+extern String ModeIcon;
+// Manual mode
+extern int manualMode;
+extern bool brumation;
 extern String NameRelay0;
 extern String NameRelay1;
 extern String NameRelay2;
@@ -107,9 +111,11 @@ extern float analog4Value;
 extern const char* PARAM_INPUT;
 extern const int ledChannel;
 extern const char* HTTP_GET_PARAM;
+extern const char* HTTP_GET_OUT0;
 extern const char* HTTP_GET_OUT1;
 extern const char* HTTP_GET_OUT2;
 extern const char* HTTP_GET_OUT3;
+
 extern const char* HTTP_GET_SaveTweak;
 
 // GET PARAM FOR WS_ROT
@@ -122,5 +128,3 @@ extern const char* HTTP_GET_PARAM_ROT_LEFT;
 // EMERGENCY
 
 extern int ECU_STATE; // 0 = OFF, 1 = ON
-
-

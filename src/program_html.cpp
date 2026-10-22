@@ -133,8 +133,24 @@ String program_html(void) {
     content += "<div id=\"bodyheader\">";
     content += "<input class=\"returnButton\" type='button' onclick=\"location.href='/'\" value='&#8617;' />";
     content += "<h1> Program</h1>";
+
     content += "</div>";
-    content += "<form method='get' action='setprogram' style='width: 100%; padding:5px;'>";
+        
+    // Switch mode button
+    
+    //
+    
+    // Form called
+    content += seasonProgramHtml();
+    content += "</html>";
+
+    return content;
+}
+
+
+String seasonProgramHtml()
+{
+    String content = "<form method='get' action='setprogram' style='width: 100%; padding:5px;'>";
 
     content += "<h2> Seasons shedules ( summer/winter )</h2>";
     content += "<section class='season-section'>";
@@ -202,7 +218,6 @@ String program_html(void) {
 
     content += "<input class='btn-primary' type='submit' name='save' value='Save' />";
     content += "</form>";
-    content += "</html>";
-
+    
     return content;
 }

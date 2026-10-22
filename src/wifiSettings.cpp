@@ -30,7 +30,7 @@ void scanWifi(void) {
   for (int i = 0; i < n; ++i)
   {
     // Print SSID and RSSI for each network found
-    st += "<li>";
+    st += "<li class='networkid'>";
     st += WiFi.SSID(i);
     st += " (";
     st += WiFi.RSSI(i);

@@ -32,24 +32,29 @@ const char index_html[] PROGMEM = R"rawliteral(
       }
     .timeValue {color: var(--muted); font-size: 0.95rem}
     div#settingsMenu {
+      display: block;
+      position: relative;
       text-align : right;
     }
     div#menuItems {
         display: none;
         position : absolute;
-        right: 10px;
+        /*right: 10px;*/
         min-width : 75px;
         text-align : right;
         border : 1px solid #ff8c00;
         box-shadow: 0px 0px 8px rgba(255,140,0,0.3);
         background: #242428;
         border-radius: 4px;
+        z-index: 99;
       } 
       div#menuItems input {
         width : -moz-available;
         background: #1a1a1e;
         color: #ff8c00;
         border: none;
+        width: 130px;
+        cursor: pointer;
       }   
     p {font-size: 1.3rem; color: #f5f5f5;}
     p {display : inline-flexbox;}
@@ -183,6 +188,74 @@ const char index_html[] PROGMEM = R"rawliteral(
     .relay-card{background:transparent;border-radius:8px;padding:6px;display:flex;flex-direction:column;align-items:stretch;gap:6px}
     .relay-card .relay-btn{width:100%%;text-align:center}
     
+    /* Commutateur visuel entre les modes manuel et automatique. */
+    .section-title-relays {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .relay-mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .relay-mode-switch {
+      position: relative;
+      display: inline-block;
+      flex-shrink: 0;
+      width: 52px;
+      height: 28px;
+      margin: 0;
+    }
+
+    .relay-mode-switch input {
+      position: absolute;
+      width: 0;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+    }
+
+    .relay-mode-slider {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      background-color: #666;
+      border-radius: 28px;
+      transition: background-color 0.25s;
+    }
+
+    .relay-mode-slider::before {
+      position: absolute;
+      content: "";
+      width: 20px;
+      height: 20px;
+      left: 4px;
+      bottom: 4px;
+      background-color: #fff;
+      border-radius: 50%%;
+      transition: transform 0.25s;
+    }
+
+    .relay-mode-switch input:checked + .relay-mode-slider {
+      background-color: var(--accent-orange);
+    }
+
+    .relay-mode-switch input:focus-visible + .relay-mode-slider {
+      outline: 2px solid var(--accent-yellow);
+      outline-offset: 2px;
+    }
+
+    .relay-mode-switch input:checked + .relay-mode-slider::before {
+      transform: translateX(24px);
+    }
+
     label {
       color: #ffc107;
       font-weight: 600;
@@ -240,7 +313,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       <div class="time" id="time"><span id="labeltime" > %MODE% </span><span id="timeValue">%TIME%</span></div>
       <div id="settingsMenu">
         <form action="menu" method="POST"><input class="buttonMenu" type="button" onclick="displayMenu()" value="&#9776;"></form>
-        <div id="menuItems">
+        <div id="menuItems" style="display: none;" >
           <form action="network" method="POST"><input type="submit" value="&#8644; Network"></form>
           <form action="tweak" method="POST"><input type="submit" value="&#10049; Tweak"></form>
           <form action="program" method="POST"><input type="submit" value="&#10049; Program"></form>
@@ -350,7 +423,17 @@ const char index_html[] PROGMEM = R"rawliteral(
     </div>
   </div>
   
-  <div class="section-title">⚡ Relais</div>
+  <div class="section-title section-title-relays">
+    <span>⚡ Relais</span>
+    <span class="relay-mode-toggle">
+      <span>Manuel</span>
+      <label class="relay-mode-switch" aria-label="Mode manuel ou automatique">
+        <input id="automode" type="checkbox" onchange="relayMode(this)">
+        <span class="relay-mode-slider"></span>
+      </label>
+      <span>Automatique</span>
+    </span>
+  </div>
   <div class="relays">
     <div class="relay-card"><div class="small">%RELAY0%</div><input class="relay-btn" type="button" id="out0" onclick="relay(this)" value="%STATEOUT0%"></div>
     <div class="relay-card"><div class="small">%RELAY1%</div><input class="relay-btn" type="button" id="out1" onclick="relay(this)" value="%STATEOUT1%"></div>
@@ -373,7 +456,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     
     function displayMenu()
     {        
-        document.getElementById("menuItems").style.display= document.getElementById("menuItems").style.display == "inline-grid" ? "" : "inline-grid";
+        document.getElementById("menuItems").style.display= (document.getElementById("menuItems").style.display == "none") ? "block" : "none";
     }
         
 // Gauge setup
@@ -506,6 +589,8 @@ function updateSensor() {
             gauge3.setValue(data.humidity_1); // Définir une valeur pour la gauge3
             if(document.getElementById('v4')) document.getElementById('v4').textContent = parseFloat(data.humidity_1).toFixed(1) + '%';
 
+            // Update Mode
+            document.getElementById("automode").checked = data.manualMode == 1 ? "" : "checked";
             // Update relay buttons
             document.getElementById("out0").value = data.relay0 == 1 ? "ON" : "OFF";
             document.getElementById("out1").value = data.relay1 == 1 ? "ON" : "OFF";
@@ -547,6 +632,13 @@ function updateMotor(element) {
     }
   }
   xhr.open("GET", "/slider?temp="+porteState, true);
+  xhr.send();
+}
+
+// Checked if automatic mode
+function relayMode(element) {
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/automode?automode=" + !element.checked, true);
   xhr.send();
 }
 

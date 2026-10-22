@@ -33,6 +33,10 @@ String network_html(void) {
     content += "margin: 0;";
     content += "}";
 
+    content += "#networkInfo {";
+        content += "display: inline-grid";
+    content += "}";
+    
     content += "li {list-style-type: none; margin-bottom: 5px;}";
     
  
@@ -59,19 +63,45 @@ String network_html(void) {
     content += "<input class=\"returnButton\" type='button' onclick=\"location.href='/'\" value='&#8617;' />";
     content += "<h1>AXSiot Wifi settings</h1>";
     content += "</div>";
-    content += "<form action=\"/scan\" method=\"POST\"><input type=\"submit\" value=\"Rescan\"></form>";
-    content += "<p>Network statut :</p>";
-    content += "<li>ESSID : "+String(ssid)+"</li>";
-    content += "<li>Local IP : "+iplocalStr+"</li>"; 
-    content += "<li>Access Point IP : "+ ipStr+"</li>";
-    content += "<li>MAC addresse : "+ StringMacAddr +"</li>";
+    
+    content += "<div id='networInfo'>";    
+        content += "<div><p>Network statut :</p>";
+        content += "<li>ESSID : "+String(ssid)+"</li>";
+        content += "<li>Local IP : "+iplocalStr+"</li>"; 
+        content += "<li>Access Point IP : "+ ipStr+"</li>";
+        content += "<li>MAC addresse : "+ StringMacAddr +"</li></div>";
+
+        content += "<form action=\"/scan\" method=\"POST\"><input type=\"submit\" value=\"Rescan\"></form>";
+
+    content += "</div>";
+    
     content += "<p>";
     content += st;
-    content += "</p><form method='get' action='setting'>";
-    content += "<label>SSID : </label><input name='ssid' length=32><br />";
+    content += "</p>";
+    
+    content += "<form method='get' action='setting'>";
+    content += "<label>SSID : </label><input id='networkssid' name='ssid' length=32><br />";
     content += "<label>Password : </label><input name='pass' length=64><br />";
     content += "<input type='submit' name='Enregistrer'>";
     content += "</form>";
+    
     content += "</html>";
+    
+    // JS
+    content += "<script>";
+        content += "let networklist = document.getElementsByClassName('networkid');";
+        content += "let networkid = document.getElementsByClassName('networkid').value;";
+        content += "let inputnetworkssid = document.getElementById('networkssid');";
+        
+        content += "for (let i = 0; i<networklist.length ; i++) {";
+            content += "let value = document.getElementsByClassName(networklist[i]).value;";
+            content += "console.log(value);";
+            content += "networklist[i].style.cursor = 'pointer' ;";
+            content += "networklist[i].addEventListener('click', function(e) {";
+                    content +="inputnetworkssid.value = networklist[i].value;";
+                content += "}";
+            content += ")";
+        content += "}";
+    content += "</script>";
     return content;
 }

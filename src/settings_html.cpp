@@ -16,6 +16,18 @@ String settings_html(void) {
             padding: 12px 6px 14px 6px;\
             margin-bottom: 18px;\
         }\
+        .returnButton {\
+            background: var(--accent-orange) !important;\
+            color: var(--text) !important;\
+            border: none;\
+            padding: 10px 15px;\
+            font-size: 1.3rem;\
+            cursor: pointer;\
+            border-radius: 5px;\
+            min-width: 100px;\
+            text-align: center;\
+            width: 50%%;\
+        }\
         h2, h1 {\
             font-size: 1.6rem;\
             color: var(--accent-orange);\
@@ -85,6 +97,7 @@ String settings_html(void) {
         }\
     </style>\
     ";
+    
     String content = "<!DOCTYPE HTML>\r\n";
     content += "<body>";
     content += "<head>";

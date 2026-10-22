@@ -1,6 +1,6 @@
-# Firware TeraCom esp32
+# Firware Léomatic esp32
 
-Version beta : 0.2
+Version beta : 3.1
 
 ## Description
 
@@ -12,14 +12,14 @@ Vou devez pour se faire l'initialisé en vous connectant une première fois en m
 ### 4 sorties relay
 
 - Chauffage / Tapis de sol
-- Lumière chauffante ( spot )
-- Lumière spéciale ( UV )
-- Ventilation / Humidificateur
+- Lumière chauffante ( spot / céramique )
+- Lumière spéciale ( UVB )
+- Ventilation / climatisation
 
 ### Sondes d'entrées
 
 - 1 DHT 11 (température / Humidité )
-- 3 Sondes de témperatures DS18B20
+- 2 Sondes de témperatures DS18B20
 
 D'autre fonction avec de multiple sondes sont a venir ! 
 (la liste est trop longue .. )

@@ -2,3 +2,5 @@
 
 
 String program_html(void);
+String seasonProgramHtml();
+String curveProgramHtml();

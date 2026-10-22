@@ -73,7 +73,7 @@ String processor(const String& var){
   if(var == "SONDE2") {return NameSensors2; }
   if(var == "SONDE3") {return NameSensors3; }
   if(var == "SONDE4") {return NameSensors4; }
-  if(var == "MODE") {return Mode; }
+  if(var == "MODE") {return ModeIcon; }
 
   if(var == "STATEOUT0") {
     return stateout0  = ( digitalRead(pinRelay0) == OFF ) ? "OFF" : "ON";
@@ -142,10 +142,10 @@ void createWebServer()
     ElegantOTA.begin(&server);    // Start ElegantOTA
     ElegantOTA.loop();
     
-    NameRelay0 = (EEPROM.readString(64) == "") ? "Relay 0" : EEPROM.readString(64);
-    NameRelay1 = (EEPROM.readString(128) == "") ? "Relay 1" : EEPROM.readString(128);
-    NameRelay2 = (EEPROM.readString(196) == "") ? "Relay 2" : EEPROM.readString(196);
-    NameRelay3 = (EEPROM.readString(256) == "") ? "Relay 3" : EEPROM.readString(256);
+    NameRelay0 = (EEPROM.readString(64) == "") ? "Vent / Clim" : EEPROM.readString(64);
+    NameRelay1 = (EEPROM.readString(128) == "") ? "Spot / Lampe chauffante" : EEPROM.readString(128);
+    NameRelay2 = (EEPROM.readString(196) == "") ? "UV / Lampe jour" : EEPROM.readString(196);
+    NameRelay3 = (EEPROM.readString(256) == "") ? "Chauffage" : EEPROM.readString(256);
     
    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/html", index_html, processor);
@@ -170,6 +170,7 @@ void createWebServer()
       content += ",\"temperature_1\" : "+String(analog2Value);
       content += +",\"dht_1\" : "+String(analog3Value);
       content += +", \"humidity_1\" : "+String(analog4Value);
+      content += +", \"manualMode\" : "+ String((manualMode == 1 ? "1" : "0"));
       content += +", \"relay0\" : "+ String((digitalRead(pinRelay0) == OFF && RELAY_INV==1 ? "0" : "1"));
       content += +", \"relay1\" : "+ String((digitalRead(pinRelay1) == OFF && RELAY_INV==1 ? "0" : "1"));
       content += +", \"relay2\" : "+ String((digitalRead(pinRelay2) == OFF && RELAY_INV==1 ? "0" : "1"));
@@ -216,6 +217,13 @@ void createWebServer()
 
 
     // GET input1 value on <ESP_IP>/slider?outX=<inputMessage>
+     else if(request->hasParam(HTTP_GET_OUT0)) {
+      inputMessage = request->getParam(HTTP_GET_OUT0)->value();
+      stateout0 = inputMessage;
+      // TODO : ON/OFF function here
+      
+      digitalWrite(pinRelay0, !digitalRead(pinRelay0) );
+    }
     else if(request->hasParam(HTTP_GET_OUT1)) {
       inputMessage = request->getParam(HTTP_GET_OUT1)->value();
       stateout1 = inputMessage;
@@ -332,9 +340,15 @@ void createWebServer()
       request->send(200, "text/html", content);
     });
     
-    // ECU Update HTML button
+    // Mode automatique
     server.on("/ecu", [] (AsyncWebServerRequest *request) {
       ECU_STATE = !ECU_STATE;
+      request->send(200, "text/plain", "OK");
+    });
+    
+    // Automatique mode relay send value HTML button
+    server.on("/automode", [] (AsyncWebServerRequest *request) {
+      manualMode = (request->arg("automode") == "false" ) ? 0 : 1;
       request->send(200, "text/plain", "OK");
     });
     

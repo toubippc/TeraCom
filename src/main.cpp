@@ -230,8 +230,10 @@ void loop() {
           Serial.println(F("%"));
         }
         wpse324();
-        automation();
-          
+        
+        if( manualMode == 0) {
+          automation();
+        }
 
       delay(2000);
     

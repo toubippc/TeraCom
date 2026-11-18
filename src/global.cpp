@@ -38,8 +38,34 @@ String WIFI_AP_Name = "hackme";
 char *http_username = "admin";
 char *http_password = "*hackme*";
 String ModeIcon = "";
+
 int manualMode = 0;
-bool brumation = 0;
+bool curveMode = 0;
+/*
+CurveProgram curveProgram = {
+    Default coefficients : {0.15f, 0.08f, 0.07f, 0.04f, 0.15f, 0.05f, 180},
+    Devault value : {
+        Jour ( sert de multiplicateur de coefficient ), 
+        Température Point Chaud Sol (Jour), 
+        Température Point Chaud Sol (Nuit), 
+        Température Point Froid Sol (Jour), 
+        Température Point Froid Sol (Nuit), 
+        Température Air Ambiant (Jour), 
+        Température Air Ambiant (Nuit), 
+        Heures.Minutes/jour (12.34 = 12 h 34 min)
+    }
+};
+*/
+CurveSeason curveDate = {
+    {1, 4},
+    {1, 8}
+};
+
+CurveProgram curveProgram = {
+    {0.15f, 0.08f, 0.07f, 0.04f, 0.15f, 0.05f, 180},
+    {1, 35.0f, 25.0f, 24.0f, 20.0f, 35.0f, 22.0f, 14.0f}
+};
+
 String NameRelay0 = "Vent / Clim";
 String NameRelay1 = "Spot / Lampe chauffante";
 String NameRelay2 = "UV / Lampe jour";

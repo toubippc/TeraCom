@@ -83,7 +83,53 @@ extern char *http_password;
 extern String ModeIcon;
 // Manual mode
 extern int manualMode;
-extern bool brumation;
+extern bool curveMode;
+
+#ifndef CURVE_PROGRAM_STRUCTS_DEFINED
+#define CURVE_PROGRAM_STRUCTS_DEFINED
+
+
+struct CurveSeason {
+    struct summerBegin{
+        int beginSummerDay;
+        int beginSummerMonth;
+    }summerBegin;
+    struct  summerEnd{
+        int endSummerDay;
+        int endSummerMonth;
+    }summerEnd;   
+};
+
+struct CurveCoefficients {
+    float hotPointDay;
+    float hotPointNight;
+    float coldPointDay;
+    float coldPointNight;
+    float ambientAirDay;
+    float ambientAirNight;
+    unsigned int secondsPerDay;
+};
+
+struct CurveStartValues {
+    unsigned int day;
+    float hotPointDay;
+    float hotPointNight;
+    float coldPointDay;
+    float coldPointNight;
+    float ambientAirDay;
+    float ambientAirNight;
+    float photoperiodHours;
+};
+
+struct CurveProgram {
+    CurveCoefficients coefficients;
+    CurveStartValues start;
+};
+#endif
+
+extern CurveProgram curveProgram;
+extern CurveSeason curveDate;
+
 extern String NameRelay0;
 extern String NameRelay1;
 extern String NameRelay2;

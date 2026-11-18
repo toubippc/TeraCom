@@ -54,6 +54,7 @@ extern Program program;
 #endif
 
 void automation(void);
+void relayValue(int Ventilation, int SpotState, int UVState, int ChauffageState);
 void programDefaultValues(void);
 
 

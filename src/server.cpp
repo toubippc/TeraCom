@@ -354,6 +354,9 @@ void createWebServer()
     
     // Settings HTML page
     server.on("/program", [] (AsyncWebServerRequest *request) {
+      if(request->hasArg("curveMode")) {
+        curveMode = request->arg("curveMode") == "1";
+      }
       content = style_css();
       content += program_html();
       request->send(200, "text/html", content);

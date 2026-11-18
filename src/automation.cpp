@@ -46,42 +46,44 @@ void automation(void) {
         digitalWrite(pinRelay3, OFF); // Chauffage OFF
         return; // Sort de la fonction
     }
-    
-    
+                   
     // Détermination saison été/hiver
     Season season_mode;
-    //season_mode = program.winter;
-    
-    if( (timeinfo.tm_mon + 1) > program.winter.beginMM || (timeinfo.tm_mon + 1) < program.summer.beginMM ) {
-        season_mode = program.winter;
-        ModeIcon = "&#10054;";
-    } else if( (timeinfo.tm_mon + 1) == program.winter.beginMM  && timeinfo.tm_mday >= program.winter.beginDD ) {
-        season_mode = program.winter;
-        ModeIcon = "&#10054;";
-    } else if( (timeinfo.tm_mon + 1) == program.summer.beginMM  && timeinfo.tm_mday < program.summer.beginDD ) {
-        season_mode = program.winter;
-        ModeIcon = "&#10054;";
-    }
-    else {
-        season_mode = program.summer;
-        ModeIcon = "&#127796;";
-    }     
-    
-    
-    // Controle Zone froide entre 24 et 28 MAX
-    // Sécurité zone froide
-    if(analog2Value >= season_mode.day.temp2.max) { 
-        ChauffageState = OFF; // Chauffage OFF
-        SpotState = OFF; // Spot OFF
-        UVState = OFF; // UV OFF
-        VentilationState = ON; // Ventilation ON
-        
-        return;
-    }
     
     if(manualMode == 0)
     {
-        if(brumation == 0)
+
+        //season_mode = program.winter;
+        
+        if( (timeinfo.tm_mon + 1) > program.winter.beginMM || (timeinfo.tm_mon + 1) < program.summer.beginMM ) {
+            season_mode = program.winter;
+            ModeIcon = "&#10054;";
+        } else if( (timeinfo.tm_mon + 1) == program.winter.beginMM  && timeinfo.tm_mday >= program.winter.beginDD ) {
+            season_mode = program.winter;
+            ModeIcon = "&#10054;";
+        } else if( (timeinfo.tm_mon + 1) == program.summer.beginMM  && timeinfo.tm_mday < program.summer.beginDD ) {
+            season_mode = program.winter;
+            ModeIcon = "&#10054;";
+        }
+        else {
+            season_mode = program.summer;
+            ModeIcon = "&#127796;";
+        }     
+        
+        // Controle Zone froide entre 24 et 28 MAX
+        // Sécurité zone froide
+        if(analog2Value >= season_mode.day.temp2.max) { 
+            ChauffageState = OFF; // Chauffage OFF
+            SpotState = OFF; // Spot OFF
+            UVState = OFF; // UV OFF
+            VentilationState = ON; // Ventilation ON
+            
+            relayValue(VentilationState, SpotState, UVState, ChauffageState);
+            
+            return;
+        }
+    
+        if(curveMode == 0)
         {
             // Horraire JOUR
             if( season_mode.day.beginH <= timeinfo.tm_hour && timeinfo.tm_hour  < season_mode.night.beginH) 
@@ -126,17 +128,29 @@ void automation(void) {
                 if (analog1Value <= season_mode.night.temp1.min ) { ChauffageState = ON; } // Chauffage ON
                 if (analog1Value >= season_mode.night.temp1.max ) { ChauffageState = OFF; } // Chauffage OFF
             }
+        } else if(curveMode == 1) {
+            
         }
     } 
     
     // On écrit les états aux relais
+    /*
+    digitalWrite(pinRelay0, VentilationState); // Ventilation
+    digitalWrite(pinRelay1, SpotState);  // Spot 
+    digitalWrite(pinRelay2, UVState);  // UV
+    digitalWrite(pinRelay3, ChauffageState);  // Chauffage
+    */
+    relayValue(VentilationState, SpotState, UVState, ChauffageState);
+    // Serial.printf("Hour : %d \n", timeinfo.tm_hour);
+
+}
+
+void relayValue(int Ventilation, int SpotState, int UVState, int ChauffageState) {
     digitalWrite(pinRelay0, VentilationState); // Ventilation
     digitalWrite(pinRelay1, SpotState);  // Spot 
     digitalWrite(pinRelay2, UVState);  // UV
     digitalWrite(pinRelay3, ChauffageState);  // Chauffage
     
-    // Serial.printf("Hour : %d \n", timeinfo.tm_hour);
-
 }
 
 void programDefaultValues() {

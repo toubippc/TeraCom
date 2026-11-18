@@ -122,12 +122,73 @@ String program_html(void) {
     content += "color: var(--accent-orange);";
     content += "}";
 
+    content += ".program-mode-toggle {";
+    content += "display: flex;";
+    content += "align-items: center;";
+    content += "justify-content: center;";
+    content += "gap: 10px;";
+    content += "margin: 18px 0;";
+    content += "color: var(--muted);";
+    content += "}";
+
+    content += ".program-mode-switch {";
+    content += "position: relative;";
+    content += "display: inline-block;";
+    content += "flex-shrink: 0;";
+    content += "width: 52px;";
+    content += "height: 28px;";
+    content += "}";
+
+    content += ".program-mode-switch input {";
+    content += "position: absolute;";
+    content += "width: 0;";
+    content += "height: 0;";
+    content += "margin: 0;";
+    content += "opacity: 0;";
+    content += "}";
+
+    content += ".program-mode-slider {";
+    content += "position: absolute;";
+    content += "inset: 0;";
+    content += "cursor: pointer;";
+    content += "background-color: #666;";
+    content += "border-radius: 28px;";
+    content += "transition: background-color 0.25s;";
+    content += "}";
+
+    content += ".program-mode-slider::before {";
+    content += "position: absolute;";
+    content += "content: \"\";";
+    content += "width: 20px;";
+    content += "height: 20px;";
+    content += "left: 4px;";
+    content += "bottom: 4px;";
+    content += "background-color: #fff;";
+    content += "border-radius: 50%;";
+    content += "transition: transform 0.25s;";
+    content += "}";
+
+    content += ".program-mode-switch input:checked + .program-mode-slider {";
+    content += "background-color: var(--accent-orange);";
+    content += "}";
+
+    content += ".program-mode-switch input:focus-visible + .program-mode-slider {";
+    content += "outline: 2px solid var(--accent-yellow);";
+    content += "outline-offset: 2px;";
+    content += "}";
+
+    content += ".program-mode-switch input:checked + .program-mode-slider::before {";
+    content += "transform: translateX(24px);";
+    content += "}";
+
+    content += ".curve-section-title {";
+    content += "margin-top: 28px;";
+    content += "}";
+
     content += "</style>";
 
 
     content += "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" >";
-    content += "<script>";
-    content += "</script>";
     content += "</head>";
 
     content += "<div id=\"bodyheader\">";
@@ -135,15 +196,85 @@ String program_html(void) {
     content += "<h1> Program</h1>";
 
     content += "</div>";
-        
-    // Switch mode button
+
+    content += "<div class='program-mode-toggle'>";
+    content += "<span>Saisonnier</span>";
+    content += "<label class='program-mode-switch' aria-label='Programme saisonnier ou courbe'>";
+    content += "<input id='programMode' type='checkbox' ";
+    content += curveMode ? "checked " : "";
+    content += "onchange=\"location.href='/program?curveMode='+(this.checked?1:0)\">";
+    content += "<span class='program-mode-slider'></span>";
+    content += "</label>";
+    content += "<span>Courbe</span>";
+    content += "</div>";
     
-    //
-    
-    // Form called
-    content += seasonProgramHtml();
+    content += curveMode ? curveProgramHtml() : seasonProgramHtml();
     content += "</html>";
 
+    return content;
+}
+
+static void appendCurveField(String& content, const char* name, const char* label, float value, unsigned int decimals, const char* step) {
+    content += "<div class='input-group'>";
+    content += "<label for='";
+    content += name;
+    content += "'>";
+    content += label;
+    content += "</label><div class='inputs-row'>";
+    content += "<input type='number' id='";
+    content += name;
+    content += "' name='";
+    content += name;
+    content += "' value='";
+    content += String(value, decimals);
+    content += "' step='";
+    content += step;
+    content += "' class='inputInt'>";
+    content += "</div></div>";
+}
+
+String curveProgramHtml()
+{
+    String content = "<form style='width: 100%; padding:5px;'>";
+    
+    content += "<h2>Saison été</h2>";
+    content += "<fieldset>";
+    content += "Les valeurs sont incrémentées de leurs coefficient après la date/heure et décrementé a la date de fin. <br />";
+    content += "Les heures de début de journée sont définies au départ et seront calculées, chaque jour, par la suite <br />";
+    content += "Aidez vous du fichier excel pour calculer les coefficients et périodes afin d'obtenir les températures cible <br />";
+    content += "</fieldset>";
+    
+    // Heure jour
+    content += "Heure / Minute <input class='inputInt' name='curveStartHour' type='int' min='0' max='23' step='1' >/";
+    content += "<input class='inputInt' name='curveStartMinute' type='int' min='0' max='59' step='1' ><br />";
+    // Date
+    content += "Eté Jour / Mois <input class='inputInt' name='curveStartDay' type='int' min='1' max='31' step='1' >/";
+    content += "<input class='inputInt' name='curveStartMonth' type='int' min='1' max='12' step='1' ><br />";
+    content += "Hiver Jour / Mois <input class='inputInt' name='curveEndDay' type='int' min='1' max='31' step='1' >/";
+    content += "<input class='inputInt' name='curveEndMonth' type='int' min='1' max='12' step='1' ><br />";
+    
+    content += "<h2>Paramètres de la courbe</h2>";
+    content += "<h3 class='season-label curve-section-title'>COEFFICIENTS</h3>";
+
+    appendCurveField(content, "coefficientHotPointDay", "Température point chaud sol (jour)", curveProgram.coefficients.hotPointDay, 2, "0.01");
+    appendCurveField(content, "coefficientHotPointNight", "Température point chaud sol (nuit)", curveProgram.coefficients.hotPointNight, 2, "0.01");
+    appendCurveField(content, "coefficientColdPointDay", "Température point froid sol (jour)", curveProgram.coefficients.coldPointDay, 2, "0.01");
+    appendCurveField(content, "coefficientColdPointNight", "Température point froid sol (nuit)", curveProgram.coefficients.coldPointNight, 2, "0.01");
+    appendCurveField(content, "coefficientAmbientAirDay", "Température air ambiant (jour)", curveProgram.coefficients.ambientAirDay, 2, "0.01");
+    appendCurveField(content, "coefficientAmbientAirNight", "Température air ambiant (nuit)", curveProgram.coefficients.ambientAirNight, 2, "0.01");
+    appendCurveField(content, "secondsPerDay", "Pas de calcul (secondes par jour)", curveProgram.coefficients.secondsPerDay, 0, "1");
+
+    content += "<h3 class='season-label curve-section-title'>VALEURS DE DÉPART</h3>";
+    appendCurveField(content, "startDay", "Jour de départ", curveProgram.start.day, 0, "1");
+    appendCurveField(content, "startHotPointDay", "Température point chaud sol (jour, &deg;C)", curveProgram.start.hotPointDay, 1, "0.1");
+    appendCurveField(content, "startHotPointNight", "Température point chaud sol (nuit, &deg;C)", curveProgram.start.hotPointNight, 1, "0.1");
+    appendCurveField(content, "startColdPointDay", "Température point froid sol (jour, &deg;C)", curveProgram.start.coldPointDay, 1, "0.1");
+    appendCurveField(content, "startColdPointNight", "Température point froid sol (nuit, &deg;C)", curveProgram.start.coldPointNight, 1, "0.1");
+    appendCurveField(content, "startAmbientAirDay", "Température air ambiant (jour, &deg;C)", curveProgram.start.ambientAirDay, 1, "0.1");
+    appendCurveField(content, "startAmbientAirNight", "Température air ambiant (nuit, &deg;C)", curveProgram.start.ambientAirNight, 1, "0.1");
+    appendCurveField(content, "startPhotoperiodHours", "Photopériode (heures)", curveProgram.start.photoperiodHours, 1, "0.1");
+
+    content += "</>";
     return content;
 }
 
